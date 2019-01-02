@@ -3,7 +3,6 @@ import {
   AppBar,
   Toolbar,
   Avatar,
-  IconButton,
   Typography,
   withStyles,
   Button
@@ -23,7 +22,7 @@ const LogOut = withStyles({
   }
 })(Typography)
 
-const Navi = withStyles({
+const NavBar = withStyles({
   root: {
     positionSticky: true
   }
@@ -63,7 +62,6 @@ export default class Navi extends Component {
     const stateOut = this.stateOut
     const auth2 = gapi.auth2.getAuthInstance()
     auth2.signOut().then(function () {
-      console.log('User signed out.')
       stateOut()
     })
   }
@@ -110,7 +108,7 @@ export default class Navi extends Component {
   }
   render() {
     return (
-      <Navi
+      <NavBar
         color="primary"
       >
         <Toolbar>
@@ -126,7 +124,7 @@ export default class Navi extends Component {
           {this.renderLogin()}
           </div>
         </Toolbar>
-      </Navi>
+      </NavBar>
     )
   }
 }
