@@ -8,7 +8,6 @@ import {
   withStyles,
   Button
 } from '@material-ui/core'
-import { generateKeyPair } from 'crypto';
 
 const styles = {
   signin: {
@@ -30,7 +29,7 @@ const Navi = withStyles({
   }
 })(AppBar)
 
-export default class Home extends Component {
+export default class Navi extends Component {
   constructor(props) {
     super(props)
     this.state = {
