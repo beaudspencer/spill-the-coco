@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import {
   AppBar,
   Toolbar,
+  Avatar,
   IconButton,
   Typography,
-  withStyles
+  withStyles,
+  Button
 } from '@material-ui/core'
 import { generateKeyPair } from 'crypto';
 
@@ -22,20 +24,42 @@ const Navi = withStyles({
 export default class Home extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      status: 'out'
+    }
+    this.stateOut = this.stateOut.bind(this)
+    this.renderSignButton = this.renderSignButton.bind(this)
+    this.logOut = this.logOut.bind(this)
+    this.renderLogin = this.renderLogin.bind(this)
     this.handleSuccess = this.handleSuccess.bind(this)
     this.handleFailure = this.handleFailure.bind(this)
   }
   handleSuccess(googleUser) {
-  const profile = googleUser.getBasicProfile()
-  console.log('ID: ' + profile.getId())
-  console.log('Name: ' + profile.getName())
-  console.log('Image URL: ' + profile.getImageUrl())
-  console.log('Email: ' + profile.getEmail())
+    const profile = googleUser.getBasicProfile()
+  this.setState({
+    status: 'in',
+    image: profile.getImageUrl()
+  })
   }
   handleFailure() {
-    console.log('Fail')
+    this.setState({
+      status: 'fail'
+    })
   }
-  componentDidMount() {
+  stateOut() {
+    this.setState({
+      status: 'out'
+    })
+  }
+  logOut() {
+    const stateOut = this.stateOut
+    const auth2 = gapi.auth2.getAuthInstance()
+    auth2.signOut().then(function () {
+      console.log('User signed out.')
+      stateOut()
+    })
+  }
+  renderSignButton() {
     gapi.signin2.render('g-signin2', {
       'scope': 'profile email',
       'width': 120,
@@ -45,6 +69,33 @@ export default class Home extends Component {
       'onsuccess': this.handleSuccess,
       'onfailure': this.handleFailure
     })
+  }
+  componentDidMount() {
+    this.renderSignButton()
+  }
+  componentDidUpdate() {
+    this.state.status === 'out' &&
+      this.renderSignButton()
+  }
+  renderLogin() {
+    const { status, image } = this.state
+    if(status === 'out') {
+      return (
+        <div id="g-signin2" data-onsuccess={this.onSignIn} />
+      )
+    }
+    else if(status === 'in') {
+      return (
+        <React.Fragment>
+          <Button
+            onClick={this.logOut}
+          >
+            Log Out
+          </Button>
+          <Avatar src={image}/>
+        </React.Fragment>
+      )
+    }
   }
   render() {
     return (
@@ -61,7 +112,7 @@ export default class Home extends Component {
           <div
             style={styles.signin}
           >
-            <div id="g-signin2" data-onsuccess={this.onSignIn} />
+          {this.renderLogin()}
           </div>
         </Toolbar>
       </Navi>
