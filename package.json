@@ -4,6 +4,8 @@
   "description": "Lifestyle Blog",
   "main": "index.js",
   "scripts": {
+    "dev": "webpack-dev-server",
+    "watch": "npm-run-all --parallel start dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
