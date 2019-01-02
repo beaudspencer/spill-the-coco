@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server",
+    "start": "node index.js",
     "watch": "npm-run-all --parallel start dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
