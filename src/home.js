@@ -13,12 +13,21 @@ import { generateKeyPair } from 'crypto';
 const styles = {
   signin: {
     position: 'absolute',
-    right: '1rem'
+    right: '1rem',
+    display: 'inherit'
   }
 }
 
+const LogOut = withStyles({
+  root : {
+    color: '#fff'
+  }
+})(Typography)
+
 const Navi = withStyles({
-  positionSticky: true
+  root: {
+    positionSticky: true
+  }
 })(AppBar)
 
 export default class Home extends Component {
@@ -36,10 +45,10 @@ export default class Home extends Component {
   }
   handleSuccess(googleUser) {
     const profile = googleUser.getBasicProfile()
-  this.setState({
-    status: 'in',
-    image: profile.getImageUrl()
-  })
+    this.setState({
+      status: 'in',
+      image: profile.getImageUrl()
+    })
   }
   handleFailure() {
     this.setState({
@@ -88,9 +97,12 @@ export default class Home extends Component {
       return (
         <React.Fragment>
           <Button
+            color="primary"
             onClick={this.logOut}
           >
-            Log Out
+            <LogOut>
+              Log Out
+            </LogOut>
           </Button>
           <Avatar src={image}/>
         </React.Fragment>
