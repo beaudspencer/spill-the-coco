@@ -13,8 +13,8 @@ const styles = {
 
 const BigAvatar = withStyles({
   root: {
-    height: '20rem',
-    width: '20rem',
+    height: '15rem',
+    width: '15rem',
     margin: '0 auto'
   }
 })(Avatar)
@@ -23,7 +23,12 @@ export default class HomeAbout extends React.Component {
   render() {
     const { mainImageUrl } = this.props
     return (
-      <div>
+      <div
+        className="about"
+        onClick={() => {
+          location.hash = 'about'
+        }}
+      >
         <BigAvatar
           src={mainImageUrl}
         />
