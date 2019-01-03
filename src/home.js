@@ -3,6 +3,15 @@ import {
   Typography,
   withStyles
 } from '@material-ui/core'
+import HomeAbout from './home-about'
+
+const styles = {
+  homeAbout: {
+    width: '33%',
+    float: 'right',
+    marginTop: '3rem'
+  }
+}
 
 const DontSpill = withStyles({
   root: {
@@ -21,6 +30,11 @@ export default class Home extends React.Component {
         >
           Spill the Coco
         </DontSpill>
+        <div
+          style={styles.homeAbout}
+        >
+          <HomeAbout/>
+        </div>
       </React.Fragment>
     )
   }
