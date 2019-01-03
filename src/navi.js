@@ -1,3 +1,4 @@
+/* global gapi */
 import React, { Component } from 'react'
 import {
   AppBar,
@@ -17,14 +18,14 @@ const styles = {
 }
 
 const LogOut = withStyles({
-  root : {
+  root: {
     color: '#fff'
   }
 })(Typography)
 
 const NavBar = withStyles({
   root: {
-    positionSticky: true
+    position: 'sticky'
   }
 })(AppBar)
 
@@ -66,20 +67,21 @@ export default class Navi extends Component {
   }
   componentDidUpdate() {
     const { status } = this.props
-    if(status === 'out' || status === 'fail') {
+    if (status === 'out' || status === 'fail') {
       this.renderSignButton()
     }
-}
+  }
   renderLogin() {
     const { status, user } = this.props
-    if(status === 'out' || status === 'fail') {
+    if (status === 'out' || status === 'fail') {
       return (
-        <div id="g-signin2" 
+        <div
+          id="g-signin2"
           data-onsuccess={this.onSignIn}
         />
       )
     }
-    else if(status === 'in') {
+    else if (status === 'in') {
       return (
         <React.Fragment>
           <Button
@@ -110,7 +112,7 @@ export default class Navi extends Component {
           <div
             style={styles.signin}
           >
-          {this.renderLogin()}
+            {this.renderLogin()}
           </div>
         </Toolbar>
       </NavBar>
