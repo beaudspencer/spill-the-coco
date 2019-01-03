@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core'
 import Navi from './navi'
 import Home from './home'
+import About from './about'
 
 const theme = createMuiTheme({
   palette: {
@@ -22,12 +23,16 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      view: {
+        path: '#home'
+      },
       mobile: false,
       status: 'out',
       user: null
     }
     this.handleStatus = this.handleStatus.bind(this)
     this.setUser = this.setUser.bind(this)
+    this.renderView = this.renderView.bind(this)
   }
   handleStatus(status) {
     this.setState({
@@ -41,6 +46,16 @@ export default class App extends Component {
     })
   }
   componentDidMount() {
+    if (!location.hash) {
+      location.hash = 'home'
+    }
+    window.addEventListener('hashchange', () => {
+      this.setState({
+        view: {
+          path: location.hash
+        }
+      })
+    })
     const mql = window.matchMedia('(max-width: 600px)')
     if (mql.matches) {
       this.setState({
@@ -59,7 +74,25 @@ export default class App extends Component {
         })
       }
     })
-
+    const hashEvent = new Event('hashchange')
+    window.dispatchEvent(hashEvent)
+  }
+  renderView() {
+    const { mobile, view } = this.state
+    if (view.path === '#home') {
+      return (
+        <Home
+          mobile={mobile}
+        />
+      )
+    }
+    else if (view.path === '#about') {
+      return (
+        <About
+          mobile={mobile}
+        />
+      )
+    }
   }
   render() {
     const { status, user } = this.state
@@ -87,7 +120,9 @@ export default class App extends Component {
             setUser={this.setUser}
             handleStatus={this.handleStatus}
           />
-          <Home />
+          {
+            this.renderView()
+          }
         </React.Fragment>
       </MuiThemeProvider>
     )
