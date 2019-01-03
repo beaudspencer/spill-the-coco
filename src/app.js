@@ -22,6 +22,7 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      mobile: false,
       status: 'out',
       user: null
     }
@@ -38,6 +39,27 @@ export default class App extends Component {
       status: 'in',
       user: googleUser
     })
+  }
+  componentDidMount() {
+    const mql = window.matchMedia('(max-width: 600px)')
+    if (mql.matches) {
+      this.setState({
+        mobile: true
+      })
+    }
+    mql.addListener((event) => {
+      if (event.matches) {
+        this.setState({
+          mobile: true
+        })
+      }
+      else {
+        this.setState({
+          mobile: false
+        })
+      }
+    })
+
   }
   render() {
     const { status, user } = this.state
