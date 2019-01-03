@@ -3,6 +3,7 @@ import {
   Snackbar
 } from '@material-ui/core'
 import Navi from './navi'
+import Home from './home'
 
 export default class App extends Component {
   constructor(props) {
@@ -29,29 +30,26 @@ export default class App extends Component {
     const { status, user } = this.state
     return (
       <React.Fragment>
-        <div>
-          <Snackbar
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            open={status === 'fail'
-              ? true
-              : false
-            }
-            autoHideDuration={6000}
-            ContentProps={{
-              'aria-describedby': 'message-id',
-            }}
-            message={<span id="message-id">Failed Login</span>}
-          />
-        </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={status === 'fail'
+          }
+          autoHideDuration={6000}
+          ContentProps={{
+            'aria-describedby': 'message-id'
+          }}
+          message={<span id="message-id">Failed Login</span>}
+        />
         <Navi
           user={user}
           status={status}
           setUser={this.setUser}
           handleStatus={this.handleStatus}
         />
+        <Home />
       </React.Fragment>
     )
   }
