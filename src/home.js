@@ -6,10 +6,17 @@ import {
 import HomeAbout from './home-about'
 
 const styles = {
-  homeAbout: {
+  homeAboutD: {
     width: '33%',
     float: 'right',
     marginTop: '3rem'
+  },
+  homeAboutM: {
+    marginTop: '3rem'
+  },
+  container: {
+    margin: '0 auto',
+    width: '80%'
   }
 }
 
@@ -21,21 +28,26 @@ const DontSpill = withStyles({
   }
 })(Typography)
 
-export default class Home extends React.Component {
-  render() {
-    return (
-      <React.Fragment>
-        <DontSpill
-          variant="h1"
-        >
-          Spill the Coco
-        </DontSpill>
-        <div
-          style={styles.homeAbout}
-        >
-          <HomeAbout/>
-        </div>
-      </React.Fragment>
-    )
-  }
+export default function Home(props) {
+  const { mobile } = props
+  return (
+    <div
+      style={styles.container}
+    >
+      <DontSpill
+        variant="h1"
+      >
+        Spill the Coco
+      </DontSpill>
+      <div
+        style={
+          !mobile
+            ? styles.homeAboutD
+            : styles.homeAboutM
+        }
+      >
+        <HomeAbout/>
+      </div>
+    </div>
+  )
 }
