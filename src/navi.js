@@ -31,11 +31,6 @@ const NavBar = withStyles({
 export default class Navi extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      status: 'out'
-    }
-    this.stateOut = this.stateOut.bind(this)
-    this.renderSignButton = this.renderSignButton.bind(this)
     this.logOut = this.logOut.bind(this)
     this.renderLogin = this.renderLogin.bind(this)
     this.handleSuccess = this.handleSuccess.bind(this)
@@ -43,26 +38,16 @@ export default class Navi extends Component {
   }
   handleSuccess(googleUser) {
     const profile = googleUser.getBasicProfile()
-    this.setState({
-      status: 'in',
-      image: profile.getImageUrl()
-    })
+    this.props.setUser(profile)
   }
   handleFailure() {
-    this.setState({
-      status: 'fail'
-    })
-  }
-  stateOut() {
-    this.setState({
-      status: 'out'
-    })
+    this.props.handleStatus('fail')
   }
   logOut() {
-    const stateOut = this.stateOut
+    const { handleStatus } = this.props
     const auth2 = gapi.auth2.getAuthInstance()
     auth2.signOut().then(function () {
-      stateOut()
+      handleStatus('out')
     })
   }
   renderSignButton() {
@@ -80,14 +65,18 @@ export default class Navi extends Component {
     this.renderSignButton()
   }
   componentDidUpdate() {
-    this.state.status === 'out' &&
+    const { status } = this.props
+    if(status === 'out' || status === 'fail') {
       this.renderSignButton()
-  }
+    }
+}
   renderLogin() {
-    const { status, image } = this.state
-    if(status === 'out') {
+    const { status, user } = this.props
+    if(status === 'out' || status === 'fail') {
       return (
-        <div id="g-signin2" data-onsuccess={this.onSignIn} />
+        <div id="g-signin2" 
+          data-onsuccess={this.onSignIn}
+        />
       )
     }
     else if(status === 'in') {
@@ -101,7 +90,7 @@ export default class Navi extends Component {
               Log Out
             </LogOut>
           </Button>
-          <Avatar src={image}/>
+          <Avatar src={user.getImageUrl()}/>
         </React.Fragment>
       )
     }
