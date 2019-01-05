@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core'
 import Navi from './navi'
 import Home from './home'
-import About from './about'
+import AboutContainer from './about-container'
 
 const theme = createMuiTheme({
   palette: {
@@ -88,7 +88,7 @@ export default class App extends Component {
     }
     else if (view.path === '#about') {
       return (
-        <About
+        <AboutContainer
           mobile={mobile}
         />
       )
@@ -106,8 +106,7 @@ export default class App extends Component {
               vertical: 'bottom',
               horizontal: 'left'
             }}
-            open={status === 'fail'
-            }
+            open={status === 'fail'}
             autoHideDuration={6000}
             ContentProps={{
               'aria-describedby': 'message-id'
