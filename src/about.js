@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core'
 
 const styles = {
-  header: {
+  container: {
     marginTop: '3rem'
   },
   image: {
@@ -21,7 +21,7 @@ export default function About(props) {
   return (
     <div>
       <div
-        style={styles.header}
+        style={styles.container}
       >
         <Typography
           align="center"
@@ -33,6 +33,17 @@ export default function About(props) {
       <div
         style={styles.image}
       >
+      </div>
+      <div
+        style={styles.container}
+      >
+        <Typography
+          align="center"
+        >
+          {
+            props.text
+          }
+        </Typography>
       </div>
     </div>
   )
