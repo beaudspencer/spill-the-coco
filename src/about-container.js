@@ -20,13 +20,13 @@ export default class AboutContainer extends React.Component {
     }
   }
   render() {
+    const { admin, user } = this.props
     const { about, loading } = this.state
     loading && fetch('/about', {
       method: 'GET'
     })
       .then(res => res.json())
       .then(post => {
-        console.log(post)
         this.setState({
           about: post.text,
           loading: false
@@ -47,6 +47,8 @@ export default class AboutContainer extends React.Component {
             )
             : (
               <About
+                admin={admin}
+                user={user}
                 text={about}
               />
             )
