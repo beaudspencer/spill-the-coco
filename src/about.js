@@ -1,11 +1,13 @@
 import React from 'react'
 import {
-  Typography
+  Typography,
+  Button
 } from '@material-ui/core'
 
 const styles = {
   container: {
-    marginTop: '3rem'
+    marginTop: '3rem',
+    textAlign: 'center'
   },
   image: {
     margin: '3rem auto',
@@ -17,34 +19,47 @@ const styles = {
   }
 }
 
-export default function About(props) {
-  return (
-    <div>
-      <div
-        style={styles.container}
-      >
-        <Typography
-          align="center"
-          variant="h2"
+export default class About extends React.Component {
+  render() {
+    const { admin } = this.props
+    return (
+      <div>
+        <div
+          style={styles.container}
         >
-          About Me
-        </Typography>
-      </div>
-      <div
-        style={styles.image}
-      >
-      </div>
-      <div
-        style={styles.container}
-      >
-        <Typography
-          align="center"
-        >
+          <Typography
+            gutterBottom
+            align="center"
+            variant="h2"
+          >
+            About Me
+          </Typography>
           {
-            props.text
+            admin &&
+            <Button
+              variant="extendedFab"
+              color="secondary"
+            >
+              Edit About
+            </Button>
           }
-        </Typography>
+        </div>
+        <div
+          style={styles.image}
+        >
+        </div>
+        <div
+          style={styles.container}
+        >
+          <Typography
+            align="center"
+          >
+            {
+              this.props.text
+            }
+          </Typography>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
