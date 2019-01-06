@@ -1,6 +1,8 @@
 require('dotenv/config')
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
+
 module.exports = {
   devtool: 'source-map',
   mode: process.env.NODE_ENV || 'development',
@@ -31,7 +33,8 @@ module.exports = {
         from: 'src/*.{html,css}',
         flatten: true
       }
-    ])
+    ]),
+    new webpack.DefinePlugin({ 'process.env.ADMIN_ID': JSON.stringify(process.env.ADMIN_ID) })
   ],
   devServer: {
     open: true,
