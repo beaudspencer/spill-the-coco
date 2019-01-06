@@ -3,8 +3,16 @@ import {
   Typography,
   Button
 } from '@material-ui/core'
+import EditAbout from './edit-about'
 
 const styles = {
+  edit: {
+    width: '80%',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
   container: {
     marginTop: '3rem',
     textAlign: 'center'
@@ -20,6 +28,18 @@ const styles = {
 }
 
 export default class About extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      edit: false
+    }
+    this.setEdit = this.setEdit.bind(this)
+  }
+  setEdit() {
+    this.setState({
+      edit: true
+    })
+  }
   render() {
     const { admin } = this.props
     return (
@@ -37,6 +57,7 @@ export default class About extends React.Component {
           {
             admin &&
             <Button
+              onClick={this.setEdit}
               variant="extendedFab"
               color="secondary"
             >
@@ -58,6 +79,13 @@ export default class About extends React.Component {
               this.props.text
             }
           </Typography>
+        </div>
+        <div
+          style={styles.edit}
+        >
+          {
+            this.state.edit && <EditAbout/>
+          }
         </div>
       </div>
     )
