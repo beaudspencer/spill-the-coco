@@ -8,6 +8,7 @@ import {
   withStyles,
   Button
 } from '@material-ui/core'
+import FreeBreakfast from '@material-ui/icons/FreeBreakfastTwoTone'
 
 const styles = {
   signin: {
@@ -103,12 +104,7 @@ export default class Navi extends Component {
         color="primary"
       >
         <Toolbar>
-          <Typography
-            variant="h4"
-            color="inherit"
-          >
-            Spill The Coco
-          </Typography>
+          <FreeBreakfast/>
           <div
             style={styles.signin}
           >
