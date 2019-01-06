@@ -28,7 +28,8 @@ export default class App extends Component {
       },
       mobile: false,
       status: 'out',
-      user: null
+      user: null,
+      admin: false
     }
     this.handleStatus = this.handleStatus.bind(this)
     this.setUser = this.setUser.bind(this)
@@ -40,9 +41,11 @@ export default class App extends Component {
     })
   }
   setUser(googleUser) {
+    const administrator = googleUser.getId() === process.env.ADMIN_ID
     this.setState({
       status: 'in',
-      user: googleUser
+      user: googleUser,
+      admin: administrator
     })
   }
   componentDidMount() {
@@ -78,7 +81,7 @@ export default class App extends Component {
     window.dispatchEvent(hashEvent)
   }
   renderView() {
-    const { mobile, view } = this.state
+    const { mobile, view, user, admin } = this.state
     if (view.path === '#home') {
       return (
         <Home
@@ -89,7 +92,8 @@ export default class App extends Component {
     else if (view.path === '#about') {
       return (
         <AboutContainer
-          mobile={mobile}
+          admin={admin}
+          user={user}
         />
       )
     }
