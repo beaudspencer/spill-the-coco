@@ -36,19 +36,22 @@ app.get('/about', (req, res) => {
 })
 
 app.put('/about', (req, res) => {
-  MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err, client) => {
-    if (err) throw err
-    const db = client.db('local')
-    const collection = db.collection('about')
-    collection.updateOne({post: 'about'}, {$set: {text: req.body.text}}, (err) => {
+  if (req.query.id === process.env.ADMIN_ID) {
+    MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err, client) => {
       if (err) throw err
-      collection.find({post: 'about'}).toArray((err, items) => {
+      const db = client.db('local')
+      const collection = db.collection('about')
+      collection.updateOne({post: 'about'}, {$set: {text: req.body.text}}, (err) => {
         if (err) throw err
-        res.json(items[0])
-        client.close()
+        collection.find({post: 'about'}).toArray((err, items) => {
+          if (err) throw err
+          res.json(items[0])
+          client.close()
+        })
       })
     })
-  })
+  }
+  else res.sendStatus(403)
 })
 
 app.listen(process.env.PORT, () => {
