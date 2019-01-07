@@ -3,15 +3,38 @@ import {
   Card,
   CardContent,
   TextField,
-  Button,
-  withStyles
+  Fab,
+  withStyles,
+  Typography
 } from '@material-ui/core'
+import {
+  Cancel
+} from '@material-ui/icons'
+
+const styles = {
+  button: {
+    width: 'fit-content',
+    margin: '3rem auto'
+  },
+  whiteText: {
+    color: '#e0ffff'
+  }
+}
 
 const EditCard = withStyles({
   root: {
-    height: '40vh'
+    backgroundColor: '#f3f3f3'
   }
 })(Card)
+
+const CancelFab = withStyles({
+  root: {
+    height: '48px',
+    width: '48px',
+    marginLeft: '1rem',
+    backgroundColor: '#de1c11'
+  }
+})(Fab)
 
 export default class EditAbout extends React.Component {
   constructor(props) {
@@ -28,27 +51,46 @@ export default class EditAbout extends React.Component {
   }
   render() {
     return (
-      <EditCard>
-        <CardContent>
-          <TextField
-            id='filled-multiline-flexible'
-            label='About Me'
-            multiline
-            fullWidth
-            value={this.state.text}
-            onChange={this.handleChange}
-            margin="normal"
-            helperText='Fill out your description'
-            variant='filled'
-          />
-          <Button
-            variant="extendedFab"
+      <React.Fragment>
+        <EditCard>
+          <CardContent>
+            <TextField
+              id='filled-multiline-flexible'
+              label='About Me'
+              multiline
+              fullWidth
+              value={this.state.text}
+              onChange={this.handleChange}
+              margin="normal"
+              helperText='Fill out your description'
+              variant='outlined'
+            />
+          </CardContent>
+        </EditCard>
+        <div
+          style={styles.button}
+        >
+          <Fab
+            variant="extended"
             color="secondary"
           >
-            Submit
-          </Button>
-        </CardContent>
-      </EditCard>
+            <Typography
+              variant="button"
+              style={styles.whiteText}
+            >
+              Submit
+            </Typography>
+          </Fab>
+          <CancelFab
+            onClick={this.props.close}
+          >
+            <Cancel
+              style={styles.whiteText}
+              variant="extended"
+            />
+          </CancelFab>
+        </div>
+      </React.Fragment>
     )
   }
 }
