@@ -20,7 +20,7 @@ const styles = {
 
 const LogOut = withStyles({
   root: {
-    color: '#fff'
+    color: '#e0ffff'
   }
 })(Typography)
 
@@ -89,7 +89,9 @@ export default class Navi extends Component {
             color="primary"
             onClick={this.logOut}
           >
-            <LogOut>
+            <LogOut
+              variant="button"
+            >
               Log Out
             </LogOut>
           </Button>
