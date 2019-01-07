@@ -24,7 +24,7 @@ export default class HomeAbout extends React.Component {
     const { mainImageUrl } = this.props
     return (
       <div
-        className="about"
+        className="hover"
         onClick={() => {
           location.hash = 'about'
         }}
