@@ -36,14 +36,14 @@ export default class HomeAbout extends React.Component {
           style={styles.about}
         >
           <Typography
-            variant="h4"
+            variant="h5"
             align="center"
             gutterBottom
           >
             About
           </Typography>
           <Typography
-            variant="h4"
+            variant="h5"
             align="center"
             gutterBottom
           >
