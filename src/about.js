@@ -8,10 +8,8 @@ import EditAbout from './edit-about'
 const styles = {
   edit: {
     width: '80%',
-    position: 'absolute',
-    left: '50%',
-    top: '90%',
-    transform: 'translate(-50%, -50%)'
+    maxWidth: '40rem',
+    margin: '0 auto'
   },
   container: {
     marginTop: '3rem',
@@ -22,8 +20,8 @@ const styles = {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '80%',
-    maxWidth: '30rem',
-    height: '20rem',
+    maxWidth: '40rem',
+    height: '40vh',
     backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQdEoLRyJtupcwF2-wC0_29EvlhQNJ9hYJd-SCoFrfP_ZBYeD")'
   },
   whiteText: {
@@ -51,7 +49,7 @@ export default class About extends React.Component {
     })
   }
   render() {
-    const { admin } = this.props
+    const { admin, user, text } = this.props
     return (
       <div>
         <div
@@ -84,23 +82,27 @@ export default class About extends React.Component {
           style={styles.image}
         >
         </div>
-        <div
-          style={styles.container}
-        >
-          <Typography
-            variant="h6"
-            align="center"
+        {
+          !this.state.edit && <div
+            style={styles.container}
           >
-            {
-              this.props.text
-            }
-          </Typography>
-        </div>
+            <Typography
+              variant="h6"
+              align="center"
+            >
+              {
+                text
+              }
+            </Typography>
+          </div>
+        }
         <div
           style={styles.edit}
         >
           {
             this.state.edit && <EditAbout
+              text={text}
+              user={user}
               close={this.closeEdit}
             />
           }
