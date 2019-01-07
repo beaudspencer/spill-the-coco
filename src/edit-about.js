@@ -43,11 +43,24 @@ export default class EditAbout extends React.Component {
       text: this.props.text
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleChange(event) {
     this.setState({
       text: event.target.value
     })
+  }
+  handleSubmit() {
+    const { user } = this.props
+    if (user.getId() === process.env.ADMIN_ID) {
+      fetch(`/about?id=${user.getId()}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state)
+      })
+    }
   }
   render() {
     return (
@@ -71,6 +84,7 @@ export default class EditAbout extends React.Component {
           style={styles.button}
         >
           <Fab
+            onClick={this.handleSubmit}
             variant="extended"
             color="secondary"
           >
