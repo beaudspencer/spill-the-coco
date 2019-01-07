@@ -15,6 +15,9 @@ const styles = {
     position: 'absolute',
     right: '1rem',
     display: 'inherit'
+  },
+  white: {
+    color: '#e0ffff'
   }
 }
 
@@ -106,7 +109,13 @@ export default class Navi extends Component {
         color="primary"
       >
         <Toolbar>
-          <FreeBreakfast/>
+          <FreeBreakfast
+            className="hover"
+            onClick={() => {
+              location.hash = 'home'
+            }}
+            style={styles.white}
+          />
           <div
             style={styles.signin}
           >
