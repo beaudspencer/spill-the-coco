@@ -45,6 +45,12 @@ export default class App extends Component {
     this.setState({
       status: status
     })
+    if (status === 'out') {
+      this.setState({
+        admin: false,
+        user: null
+      })
+    }
   }
   setUser(googleUser) {
     const administrator = googleUser.getId() === process.env.ADMIN_ID
