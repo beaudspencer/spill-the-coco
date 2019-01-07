@@ -16,6 +16,12 @@ const theme = createMuiTheme({
     secondary: {
       main: '#34c22c'
     }
+  },
+  typography: {
+    fontFamily: 'Thasadith, serif',
+    fontWeightMedium: 'bolder',
+    fontWeightRegular: 'bolder',
+    useNextVariants: true
   }
 })
 
