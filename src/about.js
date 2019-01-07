@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Typography,
-  Button
+  Fab
 } from '@material-ui/core'
 import EditAbout from './edit-about'
 
@@ -10,7 +10,7 @@ const styles = {
     width: '80%',
     position: 'absolute',
     left: '50%',
-    top: '50%',
+    top: '90%',
     transform: 'translate(-50%, -50%)'
   },
   container: {
@@ -24,6 +24,9 @@ const styles = {
     width: '80%',
     height: '20rem',
     backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQdEoLRyJtupcwF2-wC0_29EvlhQNJ9hYJd-SCoFrfP_ZBYeD")'
+  },
+  whiteText: {
+    color: '#e0ffff'
   }
 }
 
@@ -34,10 +37,16 @@ export default class About extends React.Component {
       edit: false
     }
     this.setEdit = this.setEdit.bind(this)
+    this.closeEdit = this.closeEdit.bind(this)
   }
   setEdit() {
     this.setState({
       edit: true
+    })
+  }
+  closeEdit() {
+    this.setState({
+      edit: false
     })
   }
   render() {
@@ -50,19 +59,24 @@ export default class About extends React.Component {
           <Typography
             gutterBottom
             align="center"
-            variant="h2"
+            variant="h4"
           >
             About Me
           </Typography>
           {
             admin &&
-            <Button
+            <Fab
               onClick={this.setEdit}
-              variant="extendedFab"
+              variant="extended"
               color="secondary"
             >
-              Edit About
-            </Button>
+              <Typography
+                style={styles.whiteText}
+                variant="button"
+              >
+                Edit About
+              </Typography>
+            </Fab>
           }
         </div>
         <div
@@ -73,6 +87,7 @@ export default class About extends React.Component {
           style={styles.container}
         >
           <Typography
+            variant="h6"
             align="center"
           >
             {
@@ -84,7 +99,9 @@ export default class About extends React.Component {
           style={styles.edit}
         >
           {
-            this.state.edit && <EditAbout/>
+            this.state.edit && <EditAbout
+              close={this.closeEdit}
+            />
           }
         </div>
       </div>
