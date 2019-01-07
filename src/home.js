@@ -35,7 +35,7 @@ export default function Home(props) {
       style={styles.container}
     >
       <DontSpill
-        variant="h1"
+        variant="h3"
       >
         Spill the Coco
       </DontSpill>
