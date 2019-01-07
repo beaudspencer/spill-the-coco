@@ -22,6 +22,7 @@ const styles = {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '80%',
+    maxWidth: '30rem',
     height: '20rem',
     backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQdEoLRyJtupcwF2-wC0_29EvlhQNJ9hYJd-SCoFrfP_ZBYeD")'
   },
