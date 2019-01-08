@@ -11,10 +11,10 @@ import AboutContainer from './about-container'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#11de3a'
+      main: '#fffd7e'
     },
     secondary: {
-      main: '#34c22c'
+      main: '#e6e5a0'
     }
   },
   typography: {
