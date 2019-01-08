@@ -5,7 +5,7 @@ import {
   Grid
 } from '@material-ui/core'
 import HomeAbout from './home-about'
-import HomeCategory from './home-category'
+import CategoryButton from './category-button'
 
 const styles = {
   homeAbout: {
@@ -85,7 +85,7 @@ export default function Home(props) {
           {
             categories.map((category, index) => {
               return (
-                <HomeCategory
+                <CategoryButton
                   key={index}
                   category={category}
                 />

@@ -8,7 +8,7 @@ import {
 const styles = theme => ({
   image: {
     position: 'relative',
-    height: 120,
+    height: 180,
     [theme.breakpoints.down('xs')]: {
       width: '100% !important',
       height: 100
@@ -36,7 +36,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: theme.palette.common.white,
+    color: theme.palette.common.white
   },
   imageSrc: {
     position: 'absolute',
@@ -72,44 +72,45 @@ const styles = theme => ({
   }
 })
 
-class HomeCategory extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+class CategoryButton extends React.Component {
   render() {
     const { classes, category } = this.props
     return (
       <ButtonBase
-      focusRipple
-      className={classes.image}
-      focusVisibleClassName={classes.focusVisible}
-      style={{
-        width: '100%'
-      }}
-    >
-      <span
-        className={classes.imageSrc}
-        style={{
-          backgroundImage: `url(https://cdn.cnn.com/cnnnext/dam/assets/170407220921-07-iconic-mountains-pitons-restricted.jpg)`,
+        focusRipple
+        onClick= {() => {
+          location.hash = category.title.toLowerCase()
         }}
-      />
-      <span className={classes.imageBackdrop} />
-      <span className={classes.imageButton}>
-        <Typography
-          component="span"
-          variant="subtitle1"
-          color="inherit"
-          className={classes.imageTitle}
-        >
-          {
-            category.title
-          }
-          <span className={classes.imageMarked} />
-        </Typography>
-      </span>
-    </ButtonBase>
+        className={classes.image}
+        focusVisibleClassName={classes.focusVisible}
+        style={{
+          width: '100%'
+        }}
+      >
+        <span
+          className={classes.imageSrc}
+          style={{
+            backgroundImage: `url(${category.url})`,
+            backgroundPosition: 'center'
+          }}
+        />
+        <span className={classes.imageBackdrop} />
+        <span className={classes.imageButton}>
+          <Typography
+            component="span"
+            variant="subtitle1"
+            color="inherit"
+            className={classes.imageTitle}
+          >
+            {
+              category.title
+            }
+            <span className={classes.imageMarked} />
+          </Typography>
+        </span>
+      </ButtonBase>
     )
   }
 }
 
-export default withStyles(styles)(HomeCategory)
+export default withStyles(styles)(CategoryButton)
