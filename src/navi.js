@@ -1,3 +1,4 @@
+/* global gapi */
 import React, { Component } from 'react'
 import {
   AppBar,
@@ -7,24 +8,28 @@ import {
   withStyles,
   Button
 } from '@material-ui/core'
+import FreeBreakfast from '@material-ui/icons/FreeBreakfastTwoTone'
 
 const styles = {
   signin: {
     position: 'absolute',
     right: '1rem',
     display: 'inherit'
+  },
+  white: {
+    color: '#e0ffff'
   }
 }
 
 const LogOut = withStyles({
-  root : {
-    color: '#fff'
+  root: {
+    color: '#e0ffff'
   }
 })(Typography)
 
 const NavBar = withStyles({
   root: {
-    positionSticky: true
+    position: 'sticky'
   }
 })(AppBar)
 
@@ -53,8 +58,8 @@ export default class Navi extends Component {
   renderSignButton() {
     gapi.signin2.render('g-signin2', {
       'scope': 'profile email',
-      'width': 120,
-      'height': 40,
+      'width': 92,
+      'height': 37,
       'longtitle': false,
       'theme': 'light',
       'onsuccess': this.handleSuccess,
@@ -66,27 +71,29 @@ export default class Navi extends Component {
   }
   componentDidUpdate() {
     const { status } = this.props
-    if(status === 'out' || status === 'fail') {
+    if (status === 'out' || status === 'fail') {
       this.renderSignButton()
     }
-}
+  }
   renderLogin() {
     const { status, user } = this.props
-    if(status === 'out' || status === 'fail') {
+    if (status === 'out' || status === 'fail') {
       return (
-        <div id="g-signin2" 
-          data-onsuccess={this.onSignIn}
+        <div
+          id="g-signin2"
         />
       )
     }
-    else if(status === 'in') {
+    else if (status === 'in') {
       return (
         <React.Fragment>
           <Button
             color="primary"
             onClick={this.logOut}
           >
-            <LogOut>
+            <LogOut
+              variant="button"
+            >
               Log Out
             </LogOut>
           </Button>
@@ -98,19 +105,22 @@ export default class Navi extends Component {
   render() {
     return (
       <NavBar
+        height="6rem"
         color="primary"
       >
         <Toolbar>
-          <Typography
-            variant="h4"
-            color="inherit"
-          >
-            Spill The Coco
-          </Typography>
+          <FreeBreakfast
+            fontSize="large"
+            className="hover"
+            onClick={() => {
+              location.hash = 'home'
+            }}
+            style={styles.white}
+          />
           <div
             style={styles.signin}
           >
-          {this.renderLogin()}
+            {this.renderLogin()}
           </div>
         </Toolbar>
       </NavBar>

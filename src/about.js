@@ -1,0 +1,136 @@
+import React from 'react'
+import {
+  Typography,
+  Fab,
+  withStyles
+} from '@material-ui/core'
+import EditAbout from './edit-about'
+
+const styles = {
+  edit: {
+    width: '80%',
+    maxWidth: '40rem',
+    margin: '0 auto'
+  },
+  container: {
+    marginTop: '3rem',
+    textAlign: 'center'
+  },
+  whiteText: {
+    color: '#e0ffff'
+  }
+}
+
+const AboutHeader = withStyles({
+  root: {
+    fontFamily: 'Calligraffitti, cursive'
+  }
+})(Typography)
+
+export default class About extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      edit: false
+    }
+    this.setEdit = this.setEdit.bind(this)
+    this.closeEdit = this.closeEdit.bind(this)
+  }
+  setEdit() {
+    this.setState({
+      edit: true
+    })
+  }
+  closeEdit() {
+    this.setState({
+      edit: false
+    })
+  }
+  render() {
+    const { admin, user, about, reload } = this.props
+    const imageStyles = {
+      margin: '3rem auto',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      width: '80%',
+      maxWidth: '40rem',
+      height: '40vh',
+      backgroundImage: `url("${about.url}")`
+    }
+    return (
+      <div>
+        <div
+          style={styles.container}
+        >
+          <AboutHeader
+            gutterBottom
+            align="center"
+            variant="h3"
+          >
+            About Me
+          </AboutHeader>
+          {
+            admin &&
+            <Fab
+              onClick={this.setEdit}
+              variant="extended"
+              color="secondary"
+            >
+              <Typography
+                style={styles.whiteText}
+                variant="button"
+              >
+                Edit About
+              </Typography>
+            </Fab>
+          }
+        </div>
+        <div
+          style={imageStyles}
+        >
+        </div>
+        <div
+          style={styles.edit}
+        >
+          {
+            !this.state.edit && <div
+              style={styles.container}
+            >
+              {
+                about.text.split('<br>').map((para, index) => {
+                  return (
+                    <React.Fragment
+                      key={index}
+                    >
+                      <Typography
+                        variant="h6"
+                        align="left"
+                      >
+                        {
+                          para
+                        }
+                      </Typography>
+                      <br/>
+                    </React.Fragment>
+                  )
+                })
+              }
+            </div>
+          }
+        </div>
+        <div
+          style={styles.edit}
+        >
+          {
+            this.state.edit && <EditAbout
+              about={about}
+              reload={reload}
+              user={user}
+              close={this.closeEdit}
+            />
+          }
+        </div>
+      </div>
+    )
+  }
+}
