@@ -77,7 +77,6 @@ export default class About extends React.Component {
               color="secondary"
             >
               <Typography
-                style={styles.whiteText}
                 variant="button"
               >
                 Edit About

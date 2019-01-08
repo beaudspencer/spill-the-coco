@@ -15,9 +15,6 @@ const styles = {
   button: {
     width: 'fit-content',
     margin: '3rem auto'
-  },
-  whiteText: {
-    color: '#e0ffff'
   }
 }
 
@@ -32,7 +29,13 @@ const CancelFab = withStyles({
     height: '48px',
     width: '48px',
     marginLeft: '1rem',
-    backgroundColor: '#de1c11'
+    backgroundColor: '#e6c2a0'
+  }
+})(Fab)
+
+const Submit = withStyles({
+  root: {
+    backgroundColor: '#c4e6a0'
   }
 })(Fab)
 
@@ -94,23 +97,21 @@ export default class EditAbout extends React.Component {
         <div
           style={styles.button}
         >
-          <Fab
+          <Submit
             onClick={this.handleSubmit}
             variant="extended"
             color="secondary"
           >
             <Typography
               variant="button"
-              style={styles.whiteText}
             >
               Submit
             </Typography>
-          </Fab>
+          </Submit>
           <CancelFab
             onClick={this.props.close}
           >
             <Cancel
-              style={styles.whiteText}
               variant="extended"
             />
           </CancelFab>
