@@ -33,7 +33,7 @@ const styles = {
     borderLeftColor: '#e6e5a0',
     width: '4px',
     margin: '3rem 3rem 0 3rem',
-    height: '20rem',
+    height: '26rem',
     padding: '0'
   }
 }
@@ -48,13 +48,16 @@ const DontSpill = withStyles({
 
 const categories = [
   {
-    title: 'Food'
+    title: 'Food',
+    url: 'https://cdn.cnn.com/cnnnext/dam/assets/170407220921-07-iconic-mountains-pitons-restricted.jpg'
   },
   {
-    title: 'Life'
+    title: 'Life',
+    url: 'https://cdn.cnn.com/cnnnext/dam/assets/170407220921-07-iconic-mountains-pitons-restricted.jpg'
   },
   {
-    title: 'Travel'
+    title: 'Travel',
+    url: 'https://s3-us-west-1.amazonaws.com/spill-the-coco/MVIMG_20180219_163502.jpg'
   }
 ]
 
