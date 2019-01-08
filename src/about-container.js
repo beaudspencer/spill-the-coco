@@ -18,6 +18,12 @@ export default class AboutContainer extends React.Component {
       loading: true,
       about: null
     }
+    this.reloadPage = this.reloadPage.bind(this)
+  }
+  reloadPage() {
+    this.setState({
+      loading: true
+    })
   }
   render() {
     const { admin, user } = this.props
@@ -28,7 +34,7 @@ export default class AboutContainer extends React.Component {
       .then(res => res.json())
       .then(post => {
         this.setState({
-          about: post.text,
+          about: post,
           loading: false
         })
       })
@@ -47,9 +53,10 @@ export default class AboutContainer extends React.Component {
             )
             : (
               <About
+                reload={this.reloadPage}
                 admin={admin}
                 user={user}
-                text={about}
+                about={about}
               />
             )
         }
