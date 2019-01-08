@@ -1,7 +1,8 @@
 import React from 'react'
 import {
   Typography,
-  Fab
+  Fab,
+  withStyles
 } from '@material-ui/core'
 import EditAbout from './edit-about'
 
@@ -15,19 +16,16 @@ const styles = {
     marginTop: '3rem',
     textAlign: 'center'
   },
-  image: {
-    margin: '3rem auto',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    width: '80%',
-    maxWidth: '40rem',
-    height: '40vh',
-    backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQdEoLRyJtupcwF2-wC0_29EvlhQNJ9hYJd-SCoFrfP_ZBYeD")'
-  },
   whiteText: {
     color: '#e0ffff'
   }
 }
+
+const AboutHeader = withStyles({
+  root: {
+    fontFamily: 'Calligraffitti, cursive'
+  }
+})(Typography)
 
 export default class About extends React.Component {
   constructor(props) {
@@ -49,19 +47,28 @@ export default class About extends React.Component {
     })
   }
   render() {
-    const { admin, user, text } = this.props
+    const { admin, user, about, reload } = this.props
+    const imageStyles = {
+      margin: '3rem auto',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      width: '80%',
+      maxWidth: '40rem',
+      height: '40vh',
+      backgroundImage: `url("${about.url}")`
+    }
     return (
       <div>
         <div
           style={styles.container}
         >
-          <Typography
+          <AboutHeader
             gutterBottom
             align="center"
-            variant="h4"
+            variant="h3"
           >
             About Me
-          </Typography>
+          </AboutHeader>
           {
             admin &&
             <Fab
@@ -79,29 +86,45 @@ export default class About extends React.Component {
           }
         </div>
         <div
-          style={styles.image}
+          style={imageStyles}
         >
         </div>
-        {
-          !this.state.edit && <div
-            style={styles.container}
-          >
-            <Typography
-              variant="h6"
-              align="center"
+        <div
+          style={styles.edit}
+        >
+          {
+            !this.state.edit && <div
+              style={styles.container}
             >
               {
-                text
+                about.text.split('<br>').map((para, index) => {
+                  return (
+                    <React.Fragment
+                      key={index}
+                    >
+                      <Typography
+                        variant="h6"
+                        align="left"
+                      >
+                        {
+                          para
+                        }
+                      </Typography>
+                      <br/>
+                    </React.Fragment>
+                  )
+                })
               }
-            </Typography>
-          </div>
-        }
+            </div>
+          }
+        </div>
         <div
           style={styles.edit}
         >
           {
             this.state.edit && <EditAbout
-              text={text}
+              about={about}
+              reload={reload}
               user={user}
               close={this.closeEdit}
             />
