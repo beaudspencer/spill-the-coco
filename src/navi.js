@@ -58,8 +58,8 @@ export default class Navi extends Component {
   renderSignButton() {
     gapi.signin2.render('g-signin2', {
       'scope': 'profile email',
-      'width': 120,
-      'height': 40,
+      'width': 92,
+      'height': 37,
       'longtitle': false,
       'theme': 'light',
       'onsuccess': this.handleSuccess,
@@ -81,7 +81,6 @@ export default class Navi extends Component {
       return (
         <div
           id="g-signin2"
-          data-onsuccess={this.onSignIn}
         />
       )
     }
@@ -106,10 +105,12 @@ export default class Navi extends Component {
   render() {
     return (
       <NavBar
+        height="6rem"
         color="primary"
       >
         <Toolbar>
           <FreeBreakfast
+            fontSize="large"
             className="hover"
             onClick={() => {
               location.hash = 'home'
