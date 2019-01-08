@@ -19,7 +19,8 @@ app.get('/about', (req, res) => {
       if (items.length === 0) {
         collection.insertOne({
           post: 'about',
-          text: 'empty'
+          text: 'empty',
+          url: 'none'
         }).then(() => {
           collection.find({post: 'about'}).toArray((err, items) => {
             if (err) throw err
@@ -41,7 +42,12 @@ app.put('/about', (req, res) => {
       if (err) throw err
       const db = client.db('local')
       const collection = db.collection('about')
-      collection.updateOne({post: 'about'}, {$set: {text: req.body.text}}, (err) => {
+      collection.updateOne({post: 'about'}, {
+        $set: {
+          text: req.body.text,
+          url: req.body.url
+        }
+      }, (err) => {
         if (err) throw err
         collection.find({post: 'about'}).toArray((err, items) => {
           if (err) throw err
