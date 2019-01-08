@@ -21,7 +21,6 @@ const BigAvatar = withStyles({
 
 export default class HomeAbout extends React.Component {
   render() {
-    const { mainImageUrl } = this.props
     return (
       <div
         className="hover"
@@ -30,7 +29,7 @@ export default class HomeAbout extends React.Component {
         }}
       >
         <BigAvatar
-          src={mainImageUrl}
+          src={'https://s3-us-west-1.amazonaws.com/spill-the-coco/image000000_01.jpg'}
         />
         <div
           style={styles.about}
