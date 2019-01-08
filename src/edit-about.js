@@ -40,14 +40,15 @@ export default class EditAbout extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: this.props.text
+      url: this.props.about.url,
+      text: this.props.about.text
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleChange(event) {
+  handleChange({ target }) {
     this.setState({
-      text: event.target.value
+      [target.id]: target.value
     })
   }
   handleSubmit() {
@@ -60,6 +61,7 @@ export default class EditAbout extends React.Component {
         },
         body: JSON.stringify(this.state)
       })
+        .then(this.props.reload())
     }
   }
   render() {
@@ -68,15 +70,24 @@ export default class EditAbout extends React.Component {
         <EditCard>
           <CardContent>
             <TextField
-              id='filled-multiline-flexible'
-              label='About Me'
+              id="url"
+              label="Image Url"
+              fullWidth
+              margin="normal"
+              onChange={this.handleChange}
+              value={this.state.url}
+              variant="outlined"
+            />
+            <TextField
+              id="text"
+              label="About Me"
               multiline
               fullWidth
               value={this.state.text}
               onChange={this.handleChange}
               margin="normal"
-              helperText='Fill out your description'
-              variant='outlined'
+              helperText="Fill out your description"
+              variant="outlined"
             />
           </CardContent>
         </EditCard>
