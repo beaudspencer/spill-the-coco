@@ -21,12 +21,6 @@ const styles = {
   }
 }
 
-const LogOut = withStyles({
-  root: {
-    color: '#e0ffff'
-  }
-})(Typography)
-
 const NavBar = withStyles({
   root: {
     position: 'sticky'
@@ -91,11 +85,11 @@ export default class Navi extends Component {
             color="primary"
             onClick={this.logOut}
           >
-            <LogOut
+            <Typography
               variant="button"
             >
               Log Out
-            </LogOut>
+            </Typography>
           </Button>
           <Avatar src={user.getImageUrl()}/>
         </React.Fragment>
@@ -115,7 +109,6 @@ export default class Navi extends Component {
             onClick={() => {
               location.hash = 'home'
             }}
-            style={styles.white}
           />
           <div
             style={styles.signin}
