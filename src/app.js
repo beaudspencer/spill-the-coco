@@ -71,7 +71,7 @@ export default class App extends Component {
         }
       })
     })
-    const mql = window.matchMedia('(max-width: 600px)')
+    const mql = window.matchMedia('(max-width: 1300px)')
     if (mql.matches) {
       this.setState({
         mobile: true
