@@ -1,13 +1,20 @@
 import React from 'react'
 import {
   withStyles,
-  Typography
+  Typography,
+  Fab
 } from '@material-ui/core'
+import DescriptionEditor from './description-editor'
 
 const styles = {
   container: {
     margin: '3rem auto',
-    width: '80%'
+    width: '80%',
+    maxWidth: '40rem'
+  },
+  editButton: {
+    width: 'fit-content',
+    margin: '3rem auto'
   }
 }
 
@@ -37,7 +44,7 @@ export default class CategoryDescription extends React.Component {
     })
   }
   render() {
-    const { post } = this.props
+    const { post, admin, reload, user } = this.props
     return (
       <div
         style={styles.container}
@@ -51,14 +58,59 @@ export default class CategoryDescription extends React.Component {
             post.post
           }
         </Header>
-        <Typography
-          align="center"
-          variant="h6"
+        <div
+          style={styles.editButton}
         >
           {
-            post.text
+            admin &&
+              <Fab
+                onClick={this.setEdit}
+                variant="extended"
+                color="secondary"
+              >
+                <Typography
+                  variant="button"
+                >
+                  {
+                    `Edit ${post.post}`
+                  }
+                </Typography>
+              </Fab>
           }
-        </Typography>
+        </div>
+        {
+          !this.state.edit && <div
+            style={styles.container}
+          >
+            {
+              post.text.split('<br>').map((para, index) => {
+                return (
+                  <React.Fragment
+                    key={index}
+                  >
+                    <Typography
+                      variant="h6"
+                      align="left"
+                    >
+                      {
+                        para
+                      }
+                    </Typography>
+                    <br/>
+                  </React.Fragment>
+                )
+              })
+            }
+          </div>
+        }
+        {
+          this.state.edit && <DescriptionEditor
+            about={post}
+            reload={reload}
+            user={user}
+            close={this.closeEdit}
+          />
+        }
       </div>
     )
   }
