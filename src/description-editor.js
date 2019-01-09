@@ -55,9 +55,13 @@ export default class DescriptionEditor extends React.Component {
     })
   }
   handleSubmit() {
+    const page = location.hash.slice(1)
     const { user } = this.props
     if (user.getId() === process.env.ADMIN_ID) {
-      fetch(`/about?id=${user.getId()}`, {
+      const requestPage = page === 'about'
+        ? 'about?'
+        : `category?cat=${page}&`
+      fetch(`/${requestPage}id=${user.getId()}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
