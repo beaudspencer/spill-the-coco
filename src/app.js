@@ -115,6 +115,8 @@ export default class App extends Component {
       view.path === '#travel') {
       return (
         <CategoryPostsContainer
+          user={user}
+          admin={admin}
           cat={view.path.slice(1)}
         />
       )
