@@ -39,7 +39,7 @@ const Submit = withStyles({
   }
 })(Fab)
 
-export default class EditAbout extends React.Component {
+export default class DescriptionEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -72,18 +72,20 @@ export default class EditAbout extends React.Component {
       <React.Fragment>
         <EditCard>
           <CardContent>
-            <TextField
-              id="url"
-              label="Image Url"
-              fullWidth
-              margin="normal"
-              onChange={this.handleChange}
-              value={this.state.url}
-              variant="outlined"
-            />
+            {
+              this.state.url && <TextField
+                id="url"
+                label="Image Url"
+                fullWidth
+                margin="normal"
+                onChange={this.handleChange}
+                value={this.state.url}
+                variant="outlined"
+              />
+            }
             <TextField
               id="text"
-              label="About Me"
+              label="Description"
               multiline
               fullWidth
               value={this.state.text}
