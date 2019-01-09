@@ -18,6 +18,24 @@ const Header = withStyles({
 })(Typography)
 
 export default class CategoryDescription extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      edit: false
+    }
+    this.setEdit = this.setEdit.bind(this)
+    this.closeEdit = this.closeEdit.bind(this)
+  }
+  setEdit() {
+    this.setState({
+      edit: true
+    })
+  }
+  closeEdit() {
+    this.setState({
+      edit: false
+    })
+  }
   render() {
     const { post } = this.props
     return (
