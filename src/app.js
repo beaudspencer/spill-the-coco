@@ -7,6 +7,7 @@ import {
 import Navi from './navi'
 import Home from './home'
 import AboutContainer from './about-container'
+import CategoryPostsContainer from './category-posts-container'
 
 const theme = createMuiTheme({
   palette: {
@@ -106,6 +107,15 @@ export default class App extends Component {
         <AboutContainer
           admin={admin}
           user={user}
+        />
+      )
+    }
+    else if (view.path === '#food' ||
+      view.path === '#life' ||
+      view.path === '#travel') {
+      return (
+        <CategoryPostsContainer
+          cat={view.path.slice(1)}
         />
       )
     }
