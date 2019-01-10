@@ -72,6 +72,56 @@ export default class App extends Component {
         }
       })
     })
+    const mql = window.matchMedia('(max-width: 600px)')
+    if (mql.matches) {
+      this.setState({
+        mobile: true
+      })
+    }
+    mql.addListener((event) => {
+      if (event.matches) {
+        this.setState({
+          mobile: true
+        })
+      }
+      else {
+        this.setState({
+          mobile: false
+        })
+      }
+    })
+    const hashEvent = new Event('hashchange')
+    window.dispatchEvent(hashEvent)
+  }
+  renderView() {
+    const { mobile, view, user, admin } = this.state
+    if (view.path === '#home') {
+      return (
+        <Home
+          mobile={mobile}
+        />
+      )
+    }
+    else if (view.path === '#about') {
+      return (
+        <AboutContainer
+          admin={admin}
+          user={user}
+        />
+      )
+    }
+  }
+  componentDidMount() {
+    if (!location.hash) {
+      location.hash = 'home'
+    }
+    window.addEventListener('hashchange', () => {
+      this.setState({
+        view: {
+          path: location.hash
+        }
+      })
+    })
     const mql = window.matchMedia('(max-width: 1300px)')
     if (mql.matches) {
       this.setState({
