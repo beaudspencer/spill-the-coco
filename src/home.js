@@ -49,11 +49,11 @@ const DontSpill = withStyles({
 const categories = [
   {
     title: 'Food',
-    url: 'https://cdn.cnn.com/cnnnext/dam/assets/170407220921-07-iconic-mountains-pitons-restricted.jpg'
+    url: 'https://s3-us-west-1.amazonaws.com/spill-the-coco/image000000_02_2.jpg'
   },
   {
     title: 'Life',
-    url: 'https://cdn.cnn.com/cnnnext/dam/assets/170407220921-07-iconic-mountains-pitons-restricted.jpg'
+    url: 'https://s3-us-west-1.amazonaws.com/spill-the-coco/image000001.jpg'
   },
   {
     title: 'Travel',
