@@ -7,6 +7,7 @@ import {
 import Navi from './navi'
 import Home from './home'
 import AboutContainer from './about-container'
+import CategoryPostsContainer from './category-posts-container'
 
 const theme = createMuiTheme({
   palette: {
@@ -106,6 +107,67 @@ export default class App extends Component {
         <AboutContainer
           admin={admin}
           user={user}
+        />
+      )
+    }
+  }
+  componentDidMount() {
+    if (!location.hash) {
+      location.hash = 'home'
+    }
+    window.addEventListener('hashchange', () => {
+      this.setState({
+        view: {
+          path: location.hash
+        }
+      })
+    })
+    const mql = window.matchMedia('(max-width: 1300px)')
+    if (mql.matches) {
+      this.setState({
+        mobile: true
+      })
+    }
+    mql.addListener((event) => {
+      if (event.matches) {
+        this.setState({
+          mobile: true
+        })
+      }
+      else {
+        this.setState({
+          mobile: false
+        })
+      }
+    })
+    const hashEvent = new Event('hashchange')
+    window.dispatchEvent(hashEvent)
+  }
+  renderView() {
+    const { mobile, view, user, admin } = this.state
+    if (view.path === '#home') {
+      return (
+        <Home
+          mobile={mobile}
+        />
+      )
+    }
+    else if (view.path === '#about') {
+      return (
+        <AboutContainer
+          admin={admin}
+          user={user}
+        />
+      )
+    }
+    else if (view.path === '#food' ||
+      view.path === '#life' ||
+      view.path === '#travel') {
+      return (
+        <CategoryPostsContainer
+          user={user}
+          admin={admin}
+          cat={view.path.slice(1)}
         />
       )
     }

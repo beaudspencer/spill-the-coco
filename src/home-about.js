@@ -8,6 +8,10 @@ import {
 const styles = {
   about: {
     marginTop: '3rem'
+  },
+  container: {
+    width: 'fit-content',
+    margin: '0 auto'
   }
 }
 
@@ -23,6 +27,7 @@ export default class HomeAbout extends React.Component {
   render() {
     return (
       <div
+        style={styles.container}
         className="hover"
         onClick={() => {
           location.hash = 'about'

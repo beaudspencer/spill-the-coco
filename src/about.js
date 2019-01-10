@@ -4,7 +4,7 @@ import {
   Fab,
   withStyles
 } from '@material-ui/core'
-import EditAbout from './edit-about'
+import DescriptionEditor from './description-editor'
 
 const styles = {
   edit: {
@@ -121,7 +121,7 @@ export default class About extends React.Component {
           style={styles.edit}
         >
           {
-            this.state.edit && <EditAbout
+            this.state.edit && <DescriptionEditor
               about={about}
               reload={reload}
               user={user}

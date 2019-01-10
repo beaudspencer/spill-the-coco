@@ -16,20 +16,20 @@ app.get('/about', (req, res) => {
     const collection = db.collection('about')
     collection.find({post: 'about'}).toArray((err, items) => {
       if (err) throw err
-      if (items.length === 0) {
-        collection.insertOne({
-          post: 'about',
-          text: 'empty',
-          url: 'none'
-        }).then(() => {
-          collection.find({post: 'about'}).toArray((err, items) => {
-            if (err) throw err
-            res.json(items[0])
-          })
-        })
-        client.close()
-        return
-      }
+      res.json(items[0])
+      client.close()
+    })
+  })
+})
+
+app.get('/category', (req, res) => {
+  const category = req.query.cat
+  MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err, client) => {
+    if (err) throw err
+    const db = client.db('local')
+    const collection = db.collection(category)
+    collection.find({post: category}).toArray((err, items) => {
+      if (err) throw err
       res.json(items[0])
       client.close()
     })
@@ -49,11 +49,27 @@ app.put('/about', (req, res) => {
         }
       }, (err) => {
         if (err) throw err
-        collection.find({post: 'about'}).toArray((err, items) => {
-          if (err) throw err
-          res.json(items[0])
-          client.close()
-        })
+        res.sendStatus(200)
+      })
+    })
+  }
+  else res.sendStatus(403)
+})
+
+app.put('/category', (req, res) => {
+  const category = req.query.cat
+  if (req.query.id === process.env.ADMIN_ID) {
+    MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err, client) => {
+      if (err) throw err
+      const db = client.db('local')
+      const collection = db.collection(category)
+      collection.updateOne({post: category}, {
+        $set: {
+          text: req.body.text
+        }
+      }, (err) => {
+        if (err) throw err
+        res.sendStatus(200)
       })
     })
   }
