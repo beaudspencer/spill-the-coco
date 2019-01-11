@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
   Snackbar,
+  Typography,
   MuiThemeProvider,
   createMuiTheme
 } from '@material-ui/core'
@@ -8,6 +9,7 @@ import Navi from './navi'
 import Home from './home'
 import AboutContainer from './about-container'
 import CategoryPostsContainer from './category-posts-container'
+import PostCreator from './post-creator'
 
 const theme = createMuiTheme({
   palette: {
@@ -35,25 +37,28 @@ export default class App extends Component {
       },
       mobile: false,
       status: 'out',
-      user: null
+      user: null,
+      snackbar: false
     }
     this.handleStatus = this.handleStatus.bind(this)
     this.setUser = this.setUser.bind(this)
     this.renderView = this.renderView.bind(this)
+    this.close = this.close.bind(this)
   }
-  handleStatus(status) {
-    this.setState({
-      status: status
-    })
-    if (status === 'out') {
-      this.setState({
+  handleStatus(status, profile) {
+    profile
+      ? this.setUser(profile)
+      : this.setState({
+        status: status,
         user: null
       })
-    }
+    this.setState({
+      status: status,
+      snackbar: true
+    })
   }
   setUser(googleUser) {
     this.setState({
-      status: 'in',
       user: googleUser
     })
   }
@@ -89,11 +94,17 @@ export default class App extends Component {
     const hashEvent = new Event('hashchange')
     window.dispatchEvent(hashEvent)
   }
+  close() {
+    this.setState({
+      snackbar: false
+    })
+  }
   renderView() {
-    const { mobile, view, user, admin } = this.state
+    const { mobile, view, user } = this.state
     if (view.path === '#home') {
       return (
         <Home
+          user={user}
           mobile={mobile}
         />
       )
@@ -110,14 +121,21 @@ export default class App extends Component {
       view.path === '#travel') {
       return (
         <CategoryPostsContainer
-          admin={admin}
+          user={user}
           cat={view.path.slice(1)}
+        />
+      )
+    }
+    else if (view.path === '#new') {
+      return (
+        <PostCreator
+          user={user}
         />
       )
     }
   }
   render() {
-    const { status, user } = this.state
+    const { status, snackbar, user } = this.state
     return (
       <MuiThemeProvider
         theme={theme}
@@ -128,12 +146,25 @@ export default class App extends Component {
               vertical: 'bottom',
               horizontal: 'left'
             }}
-            open={status === 'fail'}
-            autoHideDuration={6000}
+            open={snackbar}
+            autoHideDuration={4000}
+            onClose={this.close}
             ContentProps={{
               'aria-describedby': 'message-id'
             }}
-            message={<span id="message-id">Failed Login</span>}
+            message={<Typography
+              id="message-id"
+              align="center"
+              color="inherit"
+              variant="h6"
+            >
+              {
+                status !== 'fail'
+                  ? `logged ${status}`
+                  : 'Failed login'
+              }
+            </Typography>
+            }
           />
           <Navi
             user={user}
