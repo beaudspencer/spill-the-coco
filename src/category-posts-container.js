@@ -25,7 +25,7 @@ export default class CategoryPostsContainer extends React.Component {
     })
   }
   render() {
-    const { admin, user, cat } = this.props
+    const { user, cat } = this.props
     const { post, loading } = this.state
     loading && fetch(`/category?cat=${cat}`, {
       method: 'GET'
@@ -53,7 +53,6 @@ export default class CategoryPostsContainer extends React.Component {
             : (
               <CategoryDescription
                 reload={this.reloadPage}
-                admin={admin}
                 user={user}
                 post={post}
               />

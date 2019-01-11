@@ -47,7 +47,8 @@ export default class About extends React.Component {
     })
   }
   render() {
-    const { admin, user, about, reload } = this.props
+    const { user, about, reload } = this.props
+    const admin = user && user.getId() === process.env.ADMIN_ID
     const imageStyles = {
       margin: '3rem auto',
       backgroundSize: 'cover',

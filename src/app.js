@@ -35,8 +35,7 @@ export default class App extends Component {
       },
       mobile: false,
       status: 'out',
-      user: null,
-      admin: false
+      user: null
     }
     this.handleStatus = this.handleStatus.bind(this)
     this.setUser = this.setUser.bind(this)
@@ -48,68 +47,15 @@ export default class App extends Component {
     })
     if (status === 'out') {
       this.setState({
-        admin: false,
         user: null
       })
     }
   }
   setUser(googleUser) {
-    const administrator = googleUser.getId() === process.env.ADMIN_ID
     this.setState({
       status: 'in',
-      user: googleUser,
-      admin: administrator
+      user: googleUser
     })
-  }
-  componentDidMount() {
-    if (!location.hash) {
-      location.hash = 'home'
-    }
-    window.addEventListener('hashchange', () => {
-      this.setState({
-        view: {
-          path: location.hash
-        }
-      })
-    })
-    const mql = window.matchMedia('(max-width: 600px)')
-    if (mql.matches) {
-      this.setState({
-        mobile: true
-      })
-    }
-    mql.addListener((event) => {
-      if (event.matches) {
-        this.setState({
-          mobile: true
-        })
-      }
-      else {
-        this.setState({
-          mobile: false
-        })
-      }
-    })
-    const hashEvent = new Event('hashchange')
-    window.dispatchEvent(hashEvent)
-  }
-  renderView() {
-    const { mobile, view, user, admin } = this.state
-    if (view.path === '#home') {
-      return (
-        <Home
-          mobile={mobile}
-        />
-      )
-    }
-    else if (view.path === '#about') {
-      return (
-        <AboutContainer
-          admin={admin}
-          user={user}
-        />
-      )
-    }
   }
   componentDidMount() {
     if (!location.hash) {
@@ -155,7 +101,6 @@ export default class App extends Component {
     else if (view.path === '#about') {
       return (
         <AboutContainer
-          admin={admin}
           user={user}
         />
       )
@@ -165,7 +110,6 @@ export default class App extends Component {
       view.path === '#travel') {
       return (
         <CategoryPostsContainer
-          user={user}
           admin={admin}
           cat={view.path.slice(1)}
         />
