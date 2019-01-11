@@ -84,7 +84,7 @@ export default class CategoryDescription extends React.Component {
             style={styles.container}
           >
             {
-              post.text.split('<br>').map((para, index) => {
+              post.text.split('\n').map((para, index) => {
                 return (
                   <React.Fragment
                     key={index}
