@@ -10,8 +10,7 @@ import CategoryButton from './category-button'
 
 const styles = {
   buttons: {
-    borderRadius: '40px',
-    width: 'fit-content',
+    borderRadius: '20%',
     overflow: 'hidden'
   },
   homeAbout: {
