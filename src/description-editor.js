@@ -20,7 +20,7 @@ const styles = {
 
 const EditCard = withStyles({
   root: {
-    backgroundColor: '#f3f3f3'
+    backgroundColor: '#f0f7f2'
   }
 })(Card)
 
@@ -70,6 +70,8 @@ export default class DescriptionEditor extends React.Component {
       })
         .then(this.props.reload())
     }
+    else {
+    }
   }
   render() {
     return (
@@ -84,7 +86,7 @@ export default class DescriptionEditor extends React.Component {
                 margin="normal"
                 onChange={this.handleChange}
                 value={this.state.url}
-                variant="outlined"
+                variant="filled"
               />
             }
             <TextField
@@ -96,7 +98,7 @@ export default class DescriptionEditor extends React.Component {
               onChange={this.handleChange}
               margin="normal"
               helperText="Fill out your description"
-              variant="outlined"
+              variant="filled"
             />
           </CardContent>
         </EditCard>
