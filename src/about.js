@@ -97,7 +97,7 @@ export default class About extends React.Component {
               style={styles.container}
             >
               {
-                about.text.split('<br>').map((para, index) => {
+                about.text.split('\n').map((para, index) => {
                   return (
                     <React.Fragment
                       key={index}
