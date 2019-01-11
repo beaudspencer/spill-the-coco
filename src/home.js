@@ -2,12 +2,18 @@ import React from 'react'
 import {
   Typography,
   withStyles,
-  Grid
+  Grid,
+  Fab
 } from '@material-ui/core'
 import HomeAbout from './home-about'
 import CategoryButton from './category-button'
 
 const styles = {
+  buttons: {
+    borderRadius: '40px',
+    width: 'fit-content',
+    overflow: 'hidden'
+  },
   homeAbout: {
     width: '40%',
     padding: '1rem',
@@ -35,6 +41,10 @@ const styles = {
     margin: '3rem 3rem 0 3rem',
     height: '26rem',
     padding: '0'
+  },
+  fab: {
+    width: 'fit-content',
+    margin: '2rem auto'
   }
 }
 
@@ -62,7 +72,8 @@ const categories = [
 ]
 
 export default function Home(props) {
-  const { mobile } = props
+  const { mobile, user } = props
+  const admin = user && user.getId() === process.env.ADMIN_ID
   return (
     <div
       style={styles.container}
@@ -72,6 +83,25 @@ export default function Home(props) {
       >
         Spill the Coco
       </DontSpill>
+      {
+        admin && <div
+          style={styles.fab}
+        >
+          <Fab
+            variant="extended"
+            color="secondary"
+            onClick={() => {
+              location.hash = '#new'
+            }}
+          >
+            <Typography
+              variant="button"
+            >
+              Create new post!
+            </Typography>
+          </Fab>
+        </div>
+      }
       <Grid
         container
         spacing={32}
@@ -82,16 +112,20 @@ export default function Home(props) {
           item
           style={styles.categories}
         >
-          {
-            categories.map((category, index) => {
-              return (
-                <CategoryButton
-                  key={index}
-                  category={category}
-                />
-              )
-            })
-          }
+          <div
+            style={styles.buttons}
+          >
+            {
+              categories.map((category, index) => {
+                return (
+                  <CategoryButton
+                    key={index}
+                    category={category}
+                  />
+                )
+              })
+            }
+          </div>
         </Grid>
         {
           !mobile && <Grid
