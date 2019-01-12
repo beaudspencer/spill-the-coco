@@ -8,10 +8,12 @@ import {
   MenuItem,
   CardActions,
   withStyles,
+  IconButton,
   Fab
 } from '@material-ui/core'
 import {
-  Add
+  Add,
+  Close
 } from '@material-ui/icons'
 
 const styles = {
@@ -41,6 +43,7 @@ export default class PostCreator extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.addElement = this.addElement.bind(this)
     this.handleContentChange = this.handleContentChange.bind(this)
+    this.removeElement = this.removeElement.bind(this)
   }
   handleChange({ target }) {
     this.setState({
@@ -82,6 +85,15 @@ export default class PostCreator extends React.Component {
       currentId: this.state.currentId + 1
     })
   }
+  removeElement({ target }) {
+    const index = target.id
+    const content = this.state.content.slice()
+    const before = content.slice(0, index)
+    const after = content.slice(index + 1)
+    this.setState({
+      content: [...before, ...after]
+    })
+  }
   render() {
     const { header, description, anchorEl, content } = this.state
     return (
@@ -105,17 +117,45 @@ export default class PostCreator extends React.Component {
             {
               content.map((element, index) => {
                 return (
-                  <TextField
+                  <div
                     key={index}
-                    id={element.id}
-                    label={element.type}
-                    fullWidth
-                    multiline
-                    value={content[index].content}
-                    onChange={(event) => {
-                      this.handleContentChange(event, index)
+                    style={{
+                      width: '100%',
+                      display: 'flex'
                     }}
-                  />
+                  >
+                    <div
+                      style={{
+                        width: 'fit-content',
+                        display: 'inline-block',
+                        marginTop: '0.5rem',
+                        marginRight: '0.5rem'
+                      }}
+                    >
+                      <IconButton
+                        id={index}
+                        onClick={this.removeElement}
+                      >
+                        <Close/>
+                      </IconButton>
+                    </div>
+                    <div
+                      style={{
+                        flex: 1
+                      }}
+                    >
+                      <TextField
+                        id={element.id}
+                        label={element.type}
+                        fullWidth
+                        multiline
+                        value={content[index].content}
+                        onChange={(event) => {
+                          this.handleContentChange(event, index)
+                        }}
+                      />
+                    </div>
+                  </div>
                 )
               })
             }
