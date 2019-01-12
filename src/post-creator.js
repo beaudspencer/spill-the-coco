@@ -276,6 +276,22 @@ export default class PostCreator extends React.Component {
             </div>
           </CardActions>
         </Card>
+        <div
+          style={{
+            width: 'fit-content',
+            margin: '3rem auto'
+          }}
+        >
+          <GreenFab
+            variant="extended"
+          >
+            <Typography
+              variant="button"
+            >
+              Preview
+            </Typography>
+          </GreenFab>
+        </div>
       </div>
     )
   }
