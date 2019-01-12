@@ -104,15 +104,19 @@ export default class PostCreator extends React.Component {
               id="header"
               label="header"
               fullWidth
+              multiline
               value={header}
               onChange={this.handleChange}
+              required
             />
             <TextField
               id="description"
               label="description"
               fullWidth
+              multiline
               onChange={this.handleChange}
               value={description}
+              required
             />
             {
               content.map((element, index) => {
@@ -153,6 +157,7 @@ export default class PostCreator extends React.Component {
                         onChange={(event) => {
                           this.handleContentChange(event, index)
                         }}
+                        required
                       />
                     </div>
                   </div>
