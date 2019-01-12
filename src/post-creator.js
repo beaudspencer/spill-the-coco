@@ -33,10 +33,30 @@ export default class PostCreator extends React.Component {
       anchorEl: null,
       header: '',
       description: '',
+      currentId: 0,
       content: []
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleClose = this.handleClose.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.addElement = this.addElement.bind(this)
+    this.handleContentChange = this.handleContentChange.bind(this)
+  }
+  handleChange({ target }) {
+    this.setState({
+      [target.id]: target.value
+    })
+  }
+  handleContentChange({ target }, index) {
+    const content = this.state.content.slice()
+    const element = content.slice()[index]
+    const updatedEl = Object.assign({}, element)
+    updatedEl.content = target.value
+    const before = content.slice(0, index)
+    const after = content.slice(index + 1)
+    this.setState({
+      content: [...before, updatedEl, ...after]
+    })
   }
   handleClick(event) {
     this.setState({
@@ -48,22 +68,57 @@ export default class PostCreator extends React.Component {
       anchorEl: null
     })
   }
+  addElement({ target }) {
+    this.handleClose()
+    const content = this.state.content.slice()
+    const element = {
+      id: this.state.currentId.toString(),
+      type: target.closest('[id]').id,
+      content: ''
+    }
+    content.push(element)
+    this.setState({
+      content: content,
+      currentId: this.state.currentId + 1
+    })
+  }
   render() {
-    const { header, description, anchorEl } = this.state
+    const { header, description, anchorEl, content } = this.state
     return (
       <div>
         <Card>
           <CardContent>
             <TextField
+              id="header"
               label="header"
               fullWidth
               value={header}
+              onChange={this.handleChange}
             />
             <TextField
+              id="description"
               label="description"
               fullWidth
+              onChange={this.handleChange}
               value={description}
             />
+            {
+              content.map((element, index) => {
+                return (
+                  <TextField
+                    key={index}
+                    id={element.id}
+                    label={element.type}
+                    fullWidth
+                    multiline
+                    value={content[index].content}
+                    onChange={(event) => {
+                      this.handleContentChange(event, index)
+                    }}
+                  />
+                )
+              })
+            }
           </CardContent>
           <CardActions>
             <div
@@ -82,21 +137,30 @@ export default class PostCreator extends React.Component {
                 open={Boolean(anchorEl)}
                 onClose={this.handleClose}
               >
-                <MenuItem>
+                <MenuItem
+                  id="header"
+                  onClick={this.addElement}
+                >
                   <Typography
                     variant="h6"
                   >
                     Header
                   </Typography>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  id="text"
+                  onClick={this.addElement}
+                >
                   <Typography
                     variant="h6"
                   >
                     Text
                   </Typography>
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  id="img"
+                  onClick={this.addElement}
+                >
                   <Typography
                     variant="h6"
                   >
