@@ -18,6 +18,7 @@ import {
   Add,
   Close
 } from '@material-ui/icons'
+import BlogPost from './blog-post'
 
 const styles = {
   actions: {
@@ -96,7 +97,7 @@ export default class PostCreator extends React.Component {
     })
   }
   removeElement({ target }) {
-    const index = target.id
+    const index = parseInt(target.closest('[id]').id, 10)
     const content = this.state.content.slice()
     const before = content.slice(0, index)
     const after = content.slice(index + 1)
@@ -105,7 +106,13 @@ export default class PostCreator extends React.Component {
     })
   }
   render() {
-    const { header, description, anchorEl, content, category } = this.state
+    const {
+      header,
+      description,
+      anchorEl,
+      content,
+      category
+    } = this.state
     return (
       <div>
         <Card>
@@ -276,22 +283,13 @@ export default class PostCreator extends React.Component {
             </div>
           </CardActions>
         </Card>
-        <div
-          style={{
-            width: 'fit-content',
-            margin: '3rem auto'
+        <BlogPost
+          post={{
+            content,
+            category,
+            header
           }}
-        >
-          <GreenFab
-            variant="extended"
-          >
-            <Typography
-              variant="button"
-            >
-              Preview
-            </Typography>
-          </GreenFab>
-        </div>
+        />
       </div>
     )
   }
