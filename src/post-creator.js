@@ -9,7 +9,10 @@ import {
   CardActions,
   withStyles,
   IconButton,
-  Fab
+  Fab,
+  Select,
+  FormControl,
+  InputLabel
 } from '@material-ui/core'
 import {
   Add,
@@ -32,6 +35,7 @@ export default class PostCreator extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      category: '',
       anchorEl: null,
       header: '',
       description: '',
@@ -44,6 +48,7 @@ export default class PostCreator extends React.Component {
     this.addElement = this.addElement.bind(this)
     this.handleContentChange = this.handleContentChange.bind(this)
     this.removeElement = this.removeElement.bind(this)
+    this.handleSelect = this.handleSelect.bind(this)
   }
   handleChange({ target }) {
     this.setState({
@@ -59,6 +64,11 @@ export default class PostCreator extends React.Component {
     const after = content.slice(index + 1)
     this.setState({
       content: [...before, updatedEl, ...after]
+    })
+  }
+  handleSelect({ target }) {
+    this.setState({
+      [target.name]: target.value
     })
   }
   handleClick(event) {
@@ -95,11 +105,58 @@ export default class PostCreator extends React.Component {
     })
   }
   render() {
-    const { header, description, anchorEl, content } = this.state
+    const { header, description, anchorEl, content, category } = this.state
     return (
       <div>
         <Card>
           <CardContent>
+            <FormControl
+              style={{
+                width: '5rem'
+              }}
+            >
+              <InputLabel
+                htmlFor="cat-sel"
+              >
+                Category
+              </InputLabel>
+              <Select
+                value={category}
+                onChange={this.handleSelect}
+                inputProps={{
+                  name: 'category',
+                  id: 'cat-sel'
+                }}
+              >
+                <MenuItem
+                  value="food"
+                >
+                  <Typography
+                    variant="h6"
+                  >
+                    Food
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  value="life"
+                >
+                  <Typography
+                    variant="h6"
+                  >
+                    Life
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  value="travel"
+                >
+                  <Typography
+                    variant="h6"
+                  >
+                    Travel
+                  </Typography>
+                </MenuItem>
+              </Select>
+            </FormControl>
             <TextField
               id="header"
               label="header"
@@ -137,6 +194,9 @@ export default class PostCreator extends React.Component {
                       }}
                     >
                       <IconButton
+                        style={{
+                          paddingLeft: '0'
+                        }}
                         id={index}
                         onClick={this.removeElement}
                       >
