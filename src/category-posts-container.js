@@ -3,6 +3,7 @@ import {
   CircularProgress
 } from '@material-ui/core'
 import CategoryDescription from './category-description'
+import PostList from './post-list'
 
 const styles = {
   loadingContainer: {
@@ -15,7 +16,9 @@ export default class CategoryPostsContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: true
+      loading: true,
+      about: null,
+      posts: null
     }
     this.reloadPage = this.reloadPage.bind(this)
   }
@@ -25,18 +28,27 @@ export default class CategoryPostsContainer extends React.Component {
     })
   }
   render() {
-    const { user, cat } = this.props
-    const { post, loading } = this.state
+    const { user, cat, mobile } = this.props
+    const { about, loading, posts } = this.state
     loading && fetch(`/category?cat=${cat}`, {
       method: 'GET'
     })
       .then(res => res.json())
-      .then(post => {
+      .then(about => {
         this.setState({
-          post: post,
-          loading: false
+          about
         })
       })
+      .then(fetch(`/posts?cat=${cat}`, {
+        method: 'GET'
+      })
+        .then(res => res.json())
+        .then(posts => {
+          this.setState({
+            posts,
+            loading: false
+          })
+        }))
     return (
       <React.Fragment>
         {
@@ -51,11 +63,17 @@ export default class CategoryPostsContainer extends React.Component {
               </div>
             )
             : (
-              <CategoryDescription
-                reload={this.reloadPage}
-                user={user}
-                post={post}
-              />
+              <React.Fragment>
+                <CategoryDescription
+                  reload={this.reloadPage}
+                  user={user}
+                  post={about}
+                />
+                <PostList
+                  mobile={mobile}
+                  posts={posts}
+                />
+              </React.Fragment>
             )
         }
       </React.Fragment>
