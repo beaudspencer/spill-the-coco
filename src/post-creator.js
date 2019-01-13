@@ -20,29 +20,30 @@ import {
 } from '@material-ui/icons'
 import BlogPost from './blog-post'
 
-const styles = {
-  actions: {
-    margin: '0.5rem auto'
-  }
-}
-
 const GreenFab = withStyles({
   root: {
-    backgroundColor: '#c4e6a0'
+    backgroundColor: '#c4e6a0',
+    margin: '0.5rem auto'
   }
 })(Fab)
+
+const newPostState = {
+  category: '',
+  thumb: '',
+  anchorEl: null,
+  header: '',
+  description: '',
+  currentId: 0,
+  content: []
+}
 
 export default class PostCreator extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      category: '',
-      anchorEl: null,
-      header: '',
-      description: '',
-      currentId: 0,
-      content: []
-    }
+    this.state =
+      localStorage.getItem('post')
+        ? JSON.parse(localStorage.getItem('post'))
+        : newPostState
     this.handleClick = this.handleClick.bind(this)
     this.handleClose = this.handleClose.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -50,6 +51,7 @@ export default class PostCreator extends React.Component {
     this.handleContentChange = this.handleContentChange.bind(this)
     this.removeElement = this.removeElement.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleChange({ target }) {
     this.setState({
@@ -82,6 +84,37 @@ export default class PostCreator extends React.Component {
       anchorEl: null
     })
   }
+  handleSubmit() {
+    const { user } = this.props
+    const { category, header, description, content, thumb } = this.state
+    fetch(`/post?id=${user.getId()}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        category,
+        thumb,
+        header,
+        description,
+        content
+      })
+    })
+      .then(res => {
+        console.log(res.status)
+        if (res.status === 500) {
+          alert('server failed to post post')
+        }
+        else if (res.status === 403) {
+          alert('forbidden request, try logging in to make post')
+        }
+        else {
+          alert('Post created!')
+        }
+      })
+    this.setState(newPostState)
+    location.hash = '#home'
+  }
   addElement({ target }) {
     this.handleClose()
     const content = this.state.content.slice()
@@ -105,8 +138,14 @@ export default class PostCreator extends React.Component {
       content: [...before, ...after]
     })
   }
+  componentDidMount() {
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('post', JSON.stringify(this.state))
+    })
+  }
   render() {
     const {
+      thumb,
       header,
       description,
       anchorEl,
@@ -166,7 +205,7 @@ export default class PostCreator extends React.Component {
             </FormControl>
             <TextField
               id="header"
-              label="header"
+              label="Title"
               fullWidth
               multiline
               value={header}
@@ -181,6 +220,13 @@ export default class PostCreator extends React.Component {
               onChange={this.handleChange}
               value={description}
               required
+            />
+            <TextField
+              id="thumb"
+              label="Thumbnail"
+              fullWidth
+              onChange={this.handleChange}
+              value={thumb}
             />
             {
               content.map((element, index) => {
@@ -219,7 +265,7 @@ export default class PostCreator extends React.Component {
                         id={element.id}
                         label={element.type}
                         fullWidth
-                        multiline
+                        multiline={element.type !== 'img'}
                         value={content[index].content}
                         onChange={(event) => {
                           this.handleContentChange(event, index)
@@ -233,54 +279,50 @@ export default class PostCreator extends React.Component {
             }
           </CardContent>
           <CardActions>
-            <div
-              style={styles.actions}
+            <GreenFab
+              aria-owns={anchorEl ? 'add-menu' : undefined}
+              aria-haspopup="true"
+              onClick={this.handleClick}
             >
-              <GreenFab
-                aria-owns={anchorEl ? 'add-menu' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleClick}
+              <Add/>
+            </GreenFab>
+            <Menu
+              id="add-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem
+                id="header"
+                onClick={this.addElement}
               >
-                <Add/>
-              </GreenFab>
-              <Menu
-                id="add-menu"
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={this.handleClose}
-              >
-                <MenuItem
-                  id="header"
-                  onClick={this.addElement}
+                <Typography
+                  variant="h6"
                 >
-                  <Typography
-                    variant="h6"
-                  >
                     Header
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  id="text"
-                  onClick={this.addElement}
+                </Typography>
+              </MenuItem>
+              <MenuItem
+                id="text"
+                onClick={this.addElement}
+              >
+                <Typography
+                  variant="h6"
                 >
-                  <Typography
-                    variant="h6"
-                  >
                     Text
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  id="img"
-                  onClick={this.addElement}
+                </Typography>
+              </MenuItem>
+              <MenuItem
+                id="img"
+                onClick={this.addElement}
+              >
+                <Typography
+                  variant="h6"
                 >
-                  <Typography
-                    variant="h6"
-                  >
                     Image
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </div>
+                </Typography>
+              </MenuItem>
+            </Menu>
           </CardActions>
         </Card>
         <BlogPost
@@ -290,6 +332,24 @@ export default class PostCreator extends React.Component {
             header
           }}
         />
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <GreenFab
+            variant="extended"
+            onClick={this.handleSubmit}
+          >
+            <Typography
+              variant="button"
+            >
+            Submit
+            </Typography>
+          </GreenFab>
+        </div>
       </div>
     )
   }
