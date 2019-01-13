@@ -68,6 +68,17 @@ export default class DescriptionEditor extends React.Component {
         },
         body: JSON.stringify(this.state)
       })
+        .then(res => {
+          if (res.status === 500) {
+            alert('server failed to edit post')
+          }
+          else if (res.status === 403) {
+            alert('forbidden request, try logging in to make changes')
+          }
+          else {
+            alert('Post edited!')
+          }
+        })
         .then(this.props.reload())
     }
     else {
