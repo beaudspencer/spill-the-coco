@@ -73,7 +73,7 @@ export default class App extends Component {
         }
       })
     })
-    const mql = window.matchMedia('(max-width: 1300px)')
+    const mql = window.matchMedia('(max-width: 800px)')
     if (mql.matches) {
       this.setState({
         mobile: true
@@ -122,6 +122,7 @@ export default class App extends Component {
       return (
         <CategoryPostsContainer
           user={user}
+          mobile={mobile}
           cat={view.path.slice(1)}
         />
       )
