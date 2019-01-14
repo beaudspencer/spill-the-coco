@@ -3,6 +3,7 @@ require('dotenv/config')
 const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
+const ObjectId = require('mongodb').ObjectId
 const bodyParser = require('body-parser')
 
 app.use(express.static('public'))
@@ -43,6 +44,26 @@ app.get('/category', (req, res) => {
         return
       }
       res.json(items[0])
+      client.close()
+    })
+  })
+})
+
+app.get('/post', (req, res) => {
+  const postId = req.query.id
+  MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      res.sendStatus(500)
+      return
+    }
+    const db = client.db('local')
+    const collection = db.collection('posts')
+    collection.find({_id: ObjectId(postId)}).toArray((err, items) => {
+      if (err) {
+        res.sendStatus(500)
+        return
+      }
+      res.json(items)
       client.close()
     })
   })
