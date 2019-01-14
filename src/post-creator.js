@@ -144,6 +144,7 @@ export default class PostCreator extends React.Component {
     })
   }
   render() {
+    const user = this.props.user
     const {
       thumb,
       header,
@@ -152,205 +153,217 @@ export default class PostCreator extends React.Component {
       content,
       category
     } = this.state
-    return (
-      <div>
-        <Card>
-          <CardContent>
-            <FormControl
-              style={{
-                width: '5rem'
-              }}
-            >
-              <InputLabel
-                htmlFor="cat-sel"
-              >
-                Category
-              </InputLabel>
-              <Select
-                value={category}
-                onChange={this.handleSelect}
-                inputProps={{
-                  name: 'category',
-                  id: 'cat-sel'
+    if (user && user.getId() === process.env.ADMIN_ID) {
+      return (
+        <div>
+          <Card>
+            <CardContent>
+              <FormControl
+                style={{
+                  width: '5rem'
                 }}
               >
-                <MenuItem
-                  value="food"
+                <InputLabel
+                  htmlFor="cat-sel"
                 >
-                  <Typography
-                    variant="h6"
-                  >
-                    Food
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  value="life"
+                    Category
+                </InputLabel>
+                <Select
+                  value={category}
+                  onChange={this.handleSelect}
+                  inputProps={{
+                    name: 'category',
+                    id: 'cat-sel'
+                  }}
                 >
-                  <Typography
-                    variant="h6"
+                  <MenuItem
+                    value="food"
                   >
-                    Life
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  value="travel"
-                >
-                  <Typography
-                    variant="h6"
-                  >
-                    Travel
-                  </Typography>
-                </MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              id="header"
-              label="Title"
-              fullWidth
-              multiline
-              value={header}
-              onChange={this.handleChange}
-              required
-            />
-            <TextField
-              id="description"
-              label="description"
-              fullWidth
-              multiline
-              onChange={this.handleChange}
-              value={description}
-              required
-            />
-            <TextField
-              id="thumb"
-              label="Thumbnail"
-              fullWidth
-              onChange={this.handleChange}
-              value={thumb}
-            />
-            {
-              content.map((element, index) => {
-                return (
-                  <div
-                    key={index}
-                    style={{
-                      width: '100%',
-                      display: 'flex'
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 'fit-content',
-                        display: 'inline-block',
-                        marginTop: '0.5rem',
-                        marginRight: '0.5rem'
-                      }}
+                    <Typography
+                      variant="h6"
                     >
-                      <IconButton
-                        style={{
-                          paddingLeft: '0'
-                        }}
-                        id={index}
-                        onClick={this.removeElement}
-                      >
-                        <Close/>
-                      </IconButton>
-                    </div>
-                    <div
-                      style={{
-                        flex: 1
-                      }}
+                        Food
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    value="life"
+                  >
+                    <Typography
+                      variant="h6"
                     >
-                      <TextField
-                        id={element.id}
-                        label={element.type}
-                        fullWidth
-                        multiline={element.type !== 'img'}
-                        value={content[index].content}
-                        onChange={(event) => {
-                          this.handleContentChange(event, index)
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
-                )
-              })
-            }
-          </CardContent>
-          <CardActions>
-            <GreenFab
-              aria-owns={anchorEl ? 'add-menu' : undefined}
-              aria-haspopup="true"
-              onClick={this.handleClick}
-            >
-              <Add/>
-            </GreenFab>
-            <Menu
-              id="add-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={this.handleClose}
-            >
-              <MenuItem
+                        Life
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    value="travel"
+                  >
+                    <Typography
+                      variant="h6"
+                    >
+                        Travel
+                    </Typography>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
                 id="header"
-                onClick={this.addElement}
+                label="Title"
+                fullWidth
+                multiline
+                value={header}
+                onChange={this.handleChange}
+                required
+              />
+              <TextField
+                id="description"
+                label="description"
+                fullWidth
+                multiline
+                onChange={this.handleChange}
+                value={description}
+                required
+              />
+              <TextField
+                id="thumb"
+                label="Thumbnail"
+                fullWidth
+                onChange={this.handleChange}
+                value={thumb}
+              />
+              {
+                content.map((element, index) => {
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        width: '100%',
+                        display: 'flex'
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 'fit-content',
+                          display: 'inline-block',
+                          marginTop: '0.5rem',
+                          marginRight: '0.5rem'
+                        }}
+                      >
+                        <IconButton
+                          style={{
+                            paddingLeft: '0'
+                          }}
+                          id={index}
+                          onClick={this.removeElement}
+                        >
+                          <Close/>
+                        </IconButton>
+                      </div>
+                      <div
+                        style={{
+                          flex: 1
+                        }}
+                      >
+                        <TextField
+                          id={element.id}
+                          label={element.type}
+                          fullWidth
+                          multiline={element.type !== 'img'}
+                          value={content[index].content}
+                          onChange={(event) => {
+                            this.handleContentChange(event, index)
+                          }}
+                          required
+                        />
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </CardContent>
+            <CardActions>
+              <GreenFab
+                aria-owns={anchorEl ? 'add-menu' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleClick}
               >
-                <Typography
-                  variant="h6"
-                >
-                    Header
-                </Typography>
-              </MenuItem>
-              <MenuItem
-                id="text"
-                onClick={this.addElement}
+                <Add/>
+              </GreenFab>
+              <Menu
+                id="add-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={this.handleClose}
               >
-                <Typography
-                  variant="h6"
+                <MenuItem
+                  id="header"
+                  onClick={this.addElement}
                 >
-                    Text
-                </Typography>
-              </MenuItem>
-              <MenuItem
-                id="img"
-                onClick={this.addElement}
-              >
-                <Typography
-                  variant="h6"
+                  <Typography
+                    variant="h6"
+                  >
+                        Header
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  id="text"
+                  onClick={this.addElement}
                 >
-                    Image
-                </Typography>
-              </MenuItem>
-            </Menu>
-          </CardActions>
-        </Card>
-        <BlogPost
-          post={{
-            content,
-            category,
-            header
-          }}
-        />
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          <GreenFab
-            variant="extended"
-            onClick={this.handleSubmit}
+                  <Typography
+                    variant="h6"
+                  >
+                        Text
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  id="img"
+                  onClick={this.addElement}
+                >
+                  <Typography
+                    variant="h6"
+                  >
+                        Image
+                  </Typography>
+                </MenuItem>
+              </Menu>
+            </CardActions>
+          </Card>
+          <BlogPost
+            post={{
+              content,
+              category,
+              header
+            }}
+          />
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center'
+            }}
           >
-            <Typography
-              variant="button"
+            <GreenFab
+              variant="extended"
+              onClick={this.handleSubmit}
             >
-            Submit
-            </Typography>
-          </GreenFab>
+              <Typography
+                variant="button"
+              >
+                Submit
+              </Typography>
+            </GreenFab>
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <Typography
+          align="center"
+          variant="h6"
+        >
+          Please Login to admin account to create a post
+        </Typography>
+      )
+    }
   }
 }
