@@ -6,6 +6,7 @@ import {
   Typography,
   withStyles
 } from '@material-ui/core'
+import hash from './hash'
 
 const PostPreviewD = withStyles({
   root: {
@@ -35,12 +36,23 @@ export default class BlogPreview extends React.Component {
   constructor(props) {
     super(props)
     this.renderContent = this.renderContent.bind(this)
+    this.setPage = this.setPage.bind(this)
+  }
+  setPage() {
+    const { _id } = this.props.post
+    location.hash = hash.stringify({
+      path: 'post',
+      params: {
+        id: _id
+      }
+    })
   }
   renderContent() {
     const { post, mobile } = this.props
     return (
       <React.Fragment>
         <CardActionArea
+          onClick={this.setPage}
           style={{
             width: mobile ? '100%' : 240,
             height: mobile ? 168 : 200
@@ -56,7 +68,9 @@ export default class BlogPreview extends React.Component {
             }}
           />
         </CardActionArea>
-        <CardActionArea>
+        <CardActionArea
+          onClick={this.setPage}
+        >
           <PreviewContent>
             <Typography
               align="center"
