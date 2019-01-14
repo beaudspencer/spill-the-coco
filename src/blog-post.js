@@ -64,6 +64,7 @@ export default class BlogPost extends React.Component {
     }
     else {
       const imageStyles = {
+        borderRadius: '4px',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: '100%',

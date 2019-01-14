@@ -50,6 +50,7 @@ export default class About extends React.Component {
     const { user, about, reload } = this.props
     const admin = user && user.getId() === process.env.ADMIN_ID
     const imageStyles = {
+      borderRadius: '4px',
       margin: '3rem auto',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
