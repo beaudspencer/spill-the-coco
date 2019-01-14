@@ -44,7 +44,8 @@ export default class CategoryDescription extends React.Component {
     })
   }
   render() {
-    const { post, admin, reload, user } = this.props
+    const { post, reload, user } = this.props
+    const admin = user && user.getId() === process.env.ADMIN_ID
     return (
       <div
         style={styles.container}
@@ -83,7 +84,7 @@ export default class CategoryDescription extends React.Component {
             style={styles.container}
           >
             {
-              post.text.split('<br>').map((para, index) => {
+              post.text.split('\n').map((para, index) => {
                 return (
                   <React.Fragment
                     key={index}

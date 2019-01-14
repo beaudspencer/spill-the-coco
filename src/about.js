@@ -47,8 +47,10 @@ export default class About extends React.Component {
     })
   }
   render() {
-    const { admin, user, about, reload } = this.props
+    const { user, about, reload } = this.props
+    const admin = user && user.getId() === process.env.ADMIN_ID
     const imageStyles = {
+      borderRadius: '4px',
       margin: '3rem auto',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -96,7 +98,7 @@ export default class About extends React.Component {
               style={styles.container}
             >
               {
-                about.text.split('<br>').map((para, index) => {
+                about.text.split('\n').map((para, index) => {
                   return (
                     <React.Fragment
                       key={index}

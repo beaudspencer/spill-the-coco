@@ -20,7 +20,7 @@ const styles = {
 
 const EditCard = withStyles({
   root: {
-    backgroundColor: '#f3f3f3'
+    backgroundColor: '#f0f7f2'
   }
 })(Card)
 
@@ -68,7 +68,20 @@ export default class DescriptionEditor extends React.Component {
         },
         body: JSON.stringify(this.state)
       })
+        .then(res => {
+          if (res.status === 500) {
+            alert('server failed to edit post')
+          }
+          else if (res.status === 403) {
+            alert('forbidden request, try logging in to make changes')
+          }
+          else {
+            alert('Post edited!')
+          }
+        })
         .then(this.props.reload())
+    }
+    else {
     }
   }
   render() {
@@ -84,7 +97,7 @@ export default class DescriptionEditor extends React.Component {
                 margin="normal"
                 onChange={this.handleChange}
                 value={this.state.url}
-                variant="outlined"
+                variant="filled"
               />
             }
             <TextField
@@ -96,7 +109,7 @@ export default class DescriptionEditor extends React.Component {
               onChange={this.handleChange}
               margin="normal"
               helperText="Fill out your description"
-              variant="outlined"
+              variant="filled"
             />
           </CardContent>
         </EditCard>

@@ -26,7 +26,7 @@ export default class AboutContainer extends React.Component {
     })
   }
   render() {
-    const { admin, user } = this.props
+    const { user } = this.props
     const { about, loading } = this.state
     loading && fetch('/about', {
       method: 'GET'
@@ -54,7 +54,6 @@ export default class AboutContainer extends React.Component {
             : (
               <About
                 reload={this.reloadPage}
-                admin={admin}
                 user={user}
                 about={about}
               />

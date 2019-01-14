@@ -37,7 +37,7 @@ export default class Navi extends Component {
   }
   handleSuccess(googleUser) {
     const profile = googleUser.getBasicProfile()
-    this.props.setUser(profile)
+    this.props.handleStatus('in', profile)
   }
   handleFailure() {
     this.props.handleStatus('fail')
