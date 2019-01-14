@@ -7,9 +7,11 @@ import {
 } from '@material-ui/core'
 import Navi from './navi'
 import Home from './home'
+import hash from './hash'
 import AboutContainer from './about-container'
 import CategoryPostsContainer from './category-posts-container'
 import PostCreator from './post-creator'
+import BlogPostContainer from './blog-post-container'
 
 const theme = createMuiTheme({
   palette: {
@@ -68,9 +70,7 @@ export default class App extends Component {
     }
     window.addEventListener('hashchange', () => {
       this.setState({
-        view: {
-          path: location.hash
-        }
+        view: hash.parse(location.hash)
       })
     })
     const mql = window.matchMedia('(max-width: 800px)')
@@ -101,7 +101,7 @@ export default class App extends Component {
   }
   renderView() {
     const { mobile, view, user } = this.state
-    if (view.path === '#home') {
+    if (view.path === 'home') {
       return (
         <Home
           user={user}
@@ -109,28 +109,35 @@ export default class App extends Component {
         />
       )
     }
-    else if (view.path === '#about') {
+    else if (view.path === 'about') {
       return (
         <AboutContainer
           user={user}
         />
       )
     }
-    else if (view.path === '#food' ||
-      view.path === '#life' ||
-      view.path === '#travel') {
+    else if (view.path === 'food' ||
+      view.path === 'life' ||
+      view.path === 'travel') {
       return (
         <CategoryPostsContainer
           user={user}
           mobile={mobile}
-          cat={view.path.slice(1)}
+          cat={view.path}
         />
       )
     }
-    else if (view.path === '#new') {
+    else if (view.path === 'new') {
       return (
         <PostCreator
           user={user}
+        />
+      )
+    }
+    else if (view.path === 'post') {
+      return (
+        <BlogPostContainer
+          id={view.params.id}
         />
       )
     }
