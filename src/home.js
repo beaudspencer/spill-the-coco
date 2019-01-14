@@ -137,7 +137,9 @@ export default function Home(props) {
           item
           style={styles.homeAbout}
         >
-          <HomeAbout/>
+          <HomeAbout
+            mobile={mobile}
+          />
         </Grid>
       </Grid>
     </div>
